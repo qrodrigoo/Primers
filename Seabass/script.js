@@ -515,3 +515,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.getElementById('editSampleBtn').addEventListener('click', () => {
+    if (selectedRowIndex === -1 || !filteredSamples[selectedRowIndex]) {
+        alert("Nenhuma amostra selecionada.");
+        return;
+    }
+
+    const sampleToEdit = filteredSamples[selectedRowIndex];
+    const abbr = sampleToEdit.abbr;
+
+    // Pegamos a localização da box para o abbr selecionado
+    const boxLocations = allBoxLocations[abbr];
+
+    let box = null;
+    let boxLocation = null;
+
+    if (boxLocations && boxLocations.length > 0) {
+        box = boxLocations[0].box;
+        boxLocation = boxLocations[0].well; // 'well' equivale ao campo 'box.location'
+    }
+
+    // Inclui box e box.location no objeto salvo
+    const fullSample = {
+        ...sampleToEdit,
+        box: box,
+        'box.location': boxLocation
+    };
+
+    // Salva no localStorage para a página de edição
+    localStorage.setItem('sampleToEdit', JSON.stringify(fullSample));
+
+    // Redireciona para o formulário de edição
+    window.location.href = './BotãoEditar/edit-sample.html';
+});
+
+
+

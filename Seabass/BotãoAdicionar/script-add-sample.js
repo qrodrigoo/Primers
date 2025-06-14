@@ -1,23 +1,23 @@
-// script-add-sample.js
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 const SUPABASE_URL = 'https://zjinpbpnjebldikhwofh.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqaW5wYnBuamVibGRpa2h3b2ZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2MzQ3MjMsImV4cCI6MjA2NTIxMDcyM30.fkp-NHgFyZ6KKUjkLgshE90--5NJIi5dlx2_E2PzOFs'; // Substitua pela sua chave real
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqaW5wYnBuamVibGRpa2h3b2ZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2MzQ3MjMsImV4cCI6MjA2NTIxMDcyM30.fkp-NHgFyZ6KKUjkLgshE90--5NJIi5dlx2_E2PzOFs'; // sua chave
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const form = document.getElementById('addSampleForm');
 const dynamicSectionsContainer = document.getElementById('extraSectionsContainer');
-const addSectionBtn = document.getElementById('addSectionBtn');
-
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const formData = new FormData(form);
+
+    // Dados principais
     const abbr = formData.get('abbr');
     const box = formData.get('box');
     const boxLocation = formData.get('box.location');
 
+    // Campos da tabela Seabass (exceto box)
     const baseData = {
         abbr,
         primer: formData.get('primer'),
@@ -26,21 +26,17 @@ form.addEventListener('submit', async (event) => {
         temperature_annealing: formData.get('temperature_annealing'),
         acession_number: formData.get('acession_number'),
         product_size: formData.get('product_size'),
-        primers_test: formData.get('primers_test')
+        primers_test: formData.get('primers_test'),
     };
 
-    const sections = formData.getAll('section-name[]');
-    const slopes = formData.getAll('section-slope[]');
-    const efficiencies = formData.getAll('section-efficiency[]');
-    const efficiencyPercents = formData.getAll('section-efficiency-percent[]');
-    const observations = formData.getAll('section-observations[]');
-
-    sections.forEach((sectionName, index) => {
-        const safeKey = sectionName.toLowerCase().replace(/\s+/g, '-');
-        baseData[`${safeKey}.slope`] = slopes[index];
-        baseData[`${safeKey}.efficiency`] = efficiencies[index];
-        baseData[`${safeKey}.efficiency(%)`] = efficiencyPercents[index];
-        baseData[`${safeKey}.observations`] = observations[index];
+    // Preencher dados das seções (estáticos e dinâmicos)
+    formData.forEach((value, key) => {
+        if (
+            key.includes('.') &&
+            !['box.location'].includes(key) // evita incluir box.location na tabela errada
+        ) {
+            baseData[key] = value;
+        }
     });
 
     const sampleToEdit = localStorage.getItem('sampleToEdit');
@@ -70,6 +66,7 @@ form.addEventListener('submit', async (event) => {
         ]));
     }
 
+    // Verificação final
     if (errorSeabass || errorBox) {
         alert('Erro ao salvar:\n' +
             (errorSeabass?.message || '') + '\n' +
@@ -84,77 +81,23 @@ form.addEventListener('submit', async (event) => {
     }
 });
 
-
-
-document.getElementById("addSectionBtn").addEventListener("click", () => {
-    const sectionName = prompt("Digite o nome da nova seção:");
-
-    if (!sectionName) return;
-
-    const formattedId = sectionName.toLowerCase().replace(/\s+/g, '-');
-
-    const sectionHTML = `
-        <div class="section custom-section">
-            <hr>
-            <div class="section-header">
-                <h4>${sectionName}</h4>
-                <button class="remove-section-btn" type="button">❌ Remover</button>
-            </div>
-            <div class="form-grid">
-                <div class="form-item">
-                    <label for="${formattedId}-slope">Slope</label>
-                    <input type="text" id="${formattedId}-slope" name="${sectionName}.slope">
-                </div>
-                <div class="form-item">
-                    <label for="${formattedId}-efficiency">Efficiency</label>
-                    <input type="text" id="${formattedId}-efficiency" name="${sectionName}.efficiency">
-                </div>
-                <div class="form-item">
-                    <label for="${formattedId}-efficiency-percent">Efficiency (%)</label>
-                    <input type="text" id="${formattedId}-efficiency-percent" name="${sectionName}.efficiency(%)">
-                </div>
-                <div class="form-item">
-                    <label for="${formattedId}-observations">Observations</label>
-                    <input type="text" id="${formattedId}-observations" name="${sectionName}.observations">
-                </div>
-            </div>
-        </div>
-    `;
-
-    const container = document.getElementById("extraSectionsContainer");
-    const wrapper = document.createElement("div");
-    wrapper.innerHTML = sectionHTML;
-
-    // Adiciona o evento ao botão de remover
-    const removeBtn = wrapper.querySelector(".remove-section-btn");
-    removeBtn.addEventListener("click", () => {
-        wrapper.remove();
-    });
-
-    container.appendChild(wrapper);
-});
-
 document.addEventListener('DOMContentLoaded', () => {
     const existingSample = localStorage.getItem('sampleToEdit');
 
     if (existingSample) {
         const sampleData = JSON.parse(existingSample);
 
-        // Preenche os campos do formulário com os dados da amostra
         for (const key in sampleData) {
             const input = document.querySelector(`[name="${key}"]`);
-            if (input) {
-                input.value = sampleData[key];
-            }
+            if (input) input.value = sampleData[key];
         }
 
-        // Altere o texto do botão se quiser indicar modo edição
         const saveBtn = document.getElementById('saveBtn');
         if (saveBtn) saveBtn.textContent = 'Salvar Edição';
     }
 });
 
 function handleAddSample() {
-    localStorage.removeItem('sampleToEdit'); // Limpa o item de edição
-    window.location.href = './Botão Adicionar/add-sample.html'; // Redireciona
+    localStorage.removeItem('sampleToEdit');
+    window.location.href = './Botão Adicionar/add-sample.html';
 }
