@@ -15,6 +15,7 @@ let allSeabassSamples = [];
 // allBoxLocations AGORA armazenará um ARRAY de locais para cada abbr
 let allBoxLocations = {}; 
 let selectedRowIndex = -1; // Para rastrear a linha selecionada na tabela
+let filteredSamples = [];
 
 // Elementos do DOM
 const searchInput = document.getElementById('searchInput');
@@ -394,83 +395,123 @@ function displayDetails(primerData) {
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("DOMContentLoaded: Página Seabass carregada. Iniciando setup...");
 
-    // 1. Teste de conexão com o Supabase (opcional, mas bom para depurar)
-    // Se a conexão falhar aqui, você verá um alerta e erros no console.
     const isConnected = await testSupabaseConnection(); 
     if (!isConnected) {
-        console.error("Não foi possível conectar ao Supabase. As funcionalidades podem estar limitadas.");
-        // Pode-se adicionar um retorno aqui se a conexão for estritamente necessária para continuar
-        // return;
+        console.error("Não foi possível conectar ao Supabase.");
+        return;
     }
 
-    // 2. Inicializa as caixas de localização no DOM (agora com A1, A2...)
     initializeLocationBoxes();
-
-    // 3. Busca e mapeia as localizações das caixas (incluindo múltiplas por abbr)
     await fetchBoxLocations(); 
+    allSeabassSamples = await fetchSeabassData(); 
 
-    // 4. Busca todos os dados de Seabass
-    const initialSamples = await fetchSeabassData(); 
+    // Inicialmente tudo visível
+    filteredSamples = allSeabassSamples;
+    populateTable(filteredSamples);
 
-    // 5. Popula a tabela
-    populateTable(initialSamples);
-
-    // 6. Configura o listener do campo de busca
+    // Filtro de busca
     searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.toLowerCase();
-        const filteredSamples = allSeabassSamples.filter(sample =>
-            (sample.abbr && String(sample.abbr).toLowerCase().includes(searchTerm)) || 
-            (sample.primer && String(sample.primer).toLowerCase().includes(searchTerm)) 
+        filteredSamples = allSeabassSamples.filter(sample =>
+            (sample.abbr && sample.abbr.toLowerCase().includes(searchTerm)) ||
+            (sample.primer && sample.primer.toLowerCase().includes(searchTerm))
         );
         populateTable(filteredSamples);
-        // Quando a busca é digitada, deseleciona qualquer linha e limpa os detalhes
-        if (selectedRowIndex !== -1) {
-            const prevSelectedRow = seabassTableBody.querySelector(`tr[data-index="${selectedRowIndex}"]`);
-            if (prevSelectedRow) {
-                prevSelectedRow.classList.remove('selected-row');
-            }
-            selectedRowIndex = -1;
-            displayDetails(null); // Limpa os detalhes
-        }
-    });
-    console.log("DOMContentLoaded: Listener do campo de busca configurado.");
 
-    // 7. Configura o listener de clique na tabela
+        // Reset da seleção
+        selectedRowIndex = -1;
+        displayDetails(null);
+    });
+
+    // ✅ Listener de clique na tabela (APENAS UMA VEZ AQUI)
     seabassTableBody.addEventListener('click', (event) => {
         const clickedRow = event.target.closest('tr');
-        if (clickedRow) {
-            // Remove o destaque da linha anterior
-            if (selectedRowIndex !== -1) {
-                const prevSelectedRow = seabassTableBody.querySelector(`tr[data-index="${selectedRowIndex}"]`);
-                if (prevSelectedRow) {
-                    prevSelectedRow.classList.remove('selected-row');
-                }
-            }
+        if (!clickedRow) return;
 
-            // Adiciona destaque à nova linha selecionada
-            clickedRow.classList.add('selected-row');
-            selectedRowIndex = parseInt(clickedRow.dataset.index);
+        if (selectedRowIndex !== -1) {
+            const prev = seabassTableBody.querySelector(`tr[data-index="${selectedRowIndex}"]`);
+            if (prev) prev.classList.remove('selected-row');
+        }
 
-            const selectedSample = allSeabassSamples[selectedRowIndex];
-            if (selectedSample) {
-                displayDetails(selectedSample);
-            }
+        clickedRow.classList.add('selected-row');
+        const abbrClicked = clickedRow.cells[0].textContent.trim();
+        const selectedSample = filteredSamples.find(sample => sample.abbr === abbrClicked);
+        selectedRowIndex = filteredSamples.findIndex(sample => sample.abbr === abbrClicked);
+
+        if (selectedSample) {
+            displayDetails(selectedSample);
+            document.getElementById('editSampleBtn').disabled = false;
+            document.getElementById('deleteSampleBtn').disabled = false;
         }
     });
-    console.log("DOMContentLoaded: Listener de clique na tabela configurado.");
 
-    // 8. Exibe os detalhes da primeira amostra se houver, ou limpa os detalhes
-    if (allSeabassSamples.length > 0) {
-        selectedRowIndex = 0; // Seleciona a primeira amostra por padrão
+    // Se houver dados, mostra o primeiro automaticamente
+    if (filteredSamples.length > 0) {
+        selectedRowIndex = 0;
         const firstRow = seabassTableBody.querySelector(`tr[data-index="0"]`);
         if (firstRow) {
             firstRow.classList.add('selected-row');
         }
-        displayDetails(allSeabassSamples[0]);
+        displayDetails(filteredSamples[0]);
     } else {
-        console.warn("DOMContentLoaded: allSeabassSamples está vazio. Nenhuma amostra para exibir detalhes iniciais.");
-        displayDetails(null); // Garante que os detalhes estejam limpos
+        displayDetails(null);
     }
 
-    console.log("DOMContentLoaded: Página Seabass inicializada e listeners configurados.");
+    console.log("DOMContentLoaded: Página Seabass inicializada.");
+
+    document.getElementById('deleteSampleBtn').addEventListener('click', async () => {
+    if (selectedRowIndex === -1 || !filteredSamples[selectedRowIndex]) {
+        alert("Nenhuma amostra selecionada.");
+        return;
+    }
+
+    const sample = filteredSamples[selectedRowIndex];
+    const confirmDelete = confirm(`Deseja mesmo excluir a amostra "${sample.abbr}"?`);
+
+    if (!confirmDelete) return;
+
+    // 1. Deleta da tabela Seabass
+    const { error: errorSeabass } = await supabase
+        .from('Seabass')
+        .delete()
+        .eq('abbr', sample.abbr);
+
+    // 2. Deleta da tabela Seabass_BOX
+    const { error: errorBox } = await supabase
+        .from('Seabass_BOX')
+        .delete()
+        .eq('abbr', sample.abbr);
+
+    if (errorSeabass || errorBox) {
+        alert("Erro ao excluir a amostra.");
+        console.error("Erro ao excluir da Seabass:", errorSeabass);
+        console.error("Erro ao excluir da Seabass_BOX:", errorBox);
+        return;
+    }
+
+    alert("Amostra excluída com sucesso!");
+
+    // Atualiza a lista
+    allSeabassSamples = await fetchSeabassData();
+    await fetchBoxLocations();
+    filteredSamples = allSeabassSamples;
+    populateTable(filteredSamples);
+    displayDetails(null);
+
+    selectedRowIndex = -1;
+    document.getElementById('editSampleBtn').disabled = true;
+    document.getElementById('deleteSampleBtn').disabled = true;
 });
+
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const addBtn = document.getElementById('addSampleBtn');
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            localStorage.removeItem('sampleToEdit'); // Garante que não entra no modo edição
+            window.location.href = './BotãoAdicionar/add-sample.html';
+        });
+    }
+});
+
