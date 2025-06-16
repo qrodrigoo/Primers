@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSeabass = document.getElementById('btnSeabass');
     const btnSalmon = document.getElementById('btnSalmon');
     const btnSole = document.getElementById('btnSole');
+    const btnAskforsample = document.getElementById('btnAsk for sample');
+
 
     if (btnSeabass) {
         btnSeabass.addEventListener('click', () => {
@@ -26,4 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Futuramente: Redirecionar para a página de Sole
         });
     }
+
+    if (btnAskforsample) {
+        btnAskforsample.addEventListener('click', () => {
+            console.log('Botão "Ask for sample" clicado!');
+            // Futuramente: Redirecionar para a página de Sole
+        });
+    }
+
+    
 });
