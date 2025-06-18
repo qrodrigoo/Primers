@@ -442,6 +442,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             displayDetails(selectedSample);
             document.getElementById('editSampleBtn').disabled = false;
             document.getElementById('deleteSampleBtn').disabled = false;
+            document.getElementById('pedirAmostraBtn').disabled = false;
+
         }
     });
 
@@ -501,6 +503,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     selectedRowIndex = -1;
     document.getElementById('editSampleBtn').disabled = true;
     document.getElementById('deleteSampleBtn').disabled = true;
+    document.getElementById('pedirAmostraBtn').disabled = true;
+
 });
 
 });
@@ -549,5 +553,39 @@ document.getElementById('editSampleBtn').addEventListener('click', () => {
     window.location.href = './BotãoEditar/edit-sample.html';
 });
 
+// Botão Pedir Amostra 
+document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
+    if (selectedRowIndex === -1 || !filteredSamples[selectedRowIndex]) {
+        alert("Nenhuma amostra selecionada.");
+        return;
+    }
 
+    const sampleToRequest = filteredSamples[selectedRowIndex];
+    const abbr = sampleToRequest.abbr;
+    const primer = sampleToRequest.primer; // ou outro campo que precise
 
+    // Pegamos a localização da box para o abbr selecionado
+    const boxLocations = allBoxLocations[abbr];
+
+    let box = null;
+    let boxLocation = null;
+
+    if (boxLocations && boxLocations.length > 0) {
+        box = boxLocations[0].box;
+        boxLocation = boxLocations[0].well; // 'well' equivale ao campo 'box.location'
+    }
+
+    // Inclui box e localização no objeto salvo
+    const fullSample = {
+        ...sampleToRequest,
+        primer: primer,
+        box: box,
+        'box.location': boxLocation
+    };
+
+    // Salva no localStorage para a página de pedido
+    localStorage.setItem('sampleToRequest', JSON.stringify(fullSample));
+
+    // Redireciona para a página de pedido
+    window.location.href = '../PedirAmostra/solicitar.html';
+});

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pedidos de Amostras</title>
+  <link rel="stylesheet" href="pedido-style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <h1>Pedidos de Amostras</h1>
+      <div id="btnContainer">
+        <button onclick="window.location.href='./PedirNovaAmostra/solicitar.html'">Pedir nova amostra</button>
+        <button onclick="window.location.href='../index.html'">Voltar</button>
+        <button id="copiarBtn">Copiar todos os dados</button>
+      </div>
+    </div>
+
+    <div id="copiar-status"></div>
+
+    <table id="pedidoTabela">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Sequence</th>
+          <th>Scale</th>
+          <th>Purification</th>
+          <th>Pos. 5</th>
+          <th>Pos. 6</th>
+          <th>Pos. 7</th>
+          <th>Pos. 8</th>
+          <th>3'</th>
+          <th>5'</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="corpoTabela">
+        <!-- Dados da tabela vão aqui -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="pedido-script.js"></script>
+</body>
+</html>

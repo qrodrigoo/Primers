@@ -26,4 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Futuramente: Redirecionar para a página de Sole
         });
     }
+
+    if (btnsample) {
+        btnsample.addEventListener('click', () => {
+            console.log('Botão "Ask for Sample" clicado! Redirecionando para a página de detalhes...');
+            // *** LINHA ALTERADA AQUI ***
+            window.location.href = './PedidosAmostra/pedido.html'; // Redireciona para a nova página
+        });
+    }
 });
