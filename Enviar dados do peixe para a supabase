@@ -1,0 +1,151 @@
+// --- CONFIGURAÇÕES SUPABASE ---
+const SUPABASE_URL = 'https://zjinpbpnjebldikhwofh.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqaW5wYnBuamVibGRpa2h3b2ZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2MzQ3MjMsImV4cCI6MjA2NTIxMDcyM30.fkp-NHgFyZ6KKUjkLgshE90--5NJIi5dlx2_E2PzOFs'; // A sua chave anon correta
+const SUPABASE_TABLE_NAME = 'Salmon';
+
+// --- MAPA DE CABEÇALHOS DA PLANILHA PARA NOMES DE COLUNAS DO SUPABASE ---
+const COLUMN_MAP = {
+  'Primers Salmon BOX': 'box',
+  'Abbr.': 'abbr', // Manter este mapeamento
+  'Primer': 'primer',
+  'Forward': 'forward',
+  'Reverse': 'reverse',
+  'Tº annealing': 'temperature_annealing',
+  'Accession nº': 'acession_number',
+  'Product size': 'product_size',
+  'Primers Test': 'primers_test',
+
+  'Tº annealing_2': 'head-kidney.temperature_annealing',
+  
+  'Slope': 'head-kidney.efficiency',
+  'Efficiency': 'head-kidney.efficiency(%)',
+  'Eff. (%)': 'head-kidney.observations',
+  'Observations': 'head-kidney.biorad.slope', 
+
+  'Slope_2': 'head-kidney.biorad.efficiency',
+  'Efficiency_2': 'head-kidney.biorad.efficiency(%)',
+  'Eff. (%)_2': 'head-kidney.biorad.observattions',
+};
+
+// --- FUNÇÃO PRINCIPAL PARA ENVIAR DADOS ---
+function enviarDadosParaSupabase() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = spreadsheet.getActiveSheet();
+  
+  const dataRange = sheet.getDataRange();
+  const values = dataRange.getValues();
+
+  // LER CABEÇALHOS DA LINHA 4 (índice 3)
+  const rawHeaders = values[3];
+  // LER DADOS A PARTIR DA LINHA 5 (índice 4)
+  const dataRows = values.slice(4);
+
+  if (dataRows.length === 0) {
+    Logger.log('Não há dados para enviar na planilha nas linhas esperadas (a partir da linha 5). Por favor, preencha as linhas de dados.');
+    return;
+  }
+
+  let successCount = 0;
+  let errorCount = 0;
+
+  const headers = [];
+  const headerCounts = {};
+
+  rawHeaders.forEach(function(rawHeader) {
+    const cleanHeader = (rawHeader + '').trim();
+    if (cleanHeader === '') {
+        headers.push('');
+        return;
+    }
+
+    if (headerCounts[cleanHeader]) {
+      headerCounts[cleanHeader]++;
+      headers.push(`${cleanHeader}_${headerCounts[cleanHeader]}`);
+    } else {
+      headerCounts[cleanHeader] = 1;
+      headers.push(cleanHeader);
+    }
+  });
+
+  Logger.log('Cabeçalhos normalizados detectados: ' + JSON.stringify(headers));
+
+  // Iterar sobre cada linha de dados
+  dataRows.forEach(function(row, rowIndex) {
+    const baseRecord = {};
+    let allValuesNullOrEmpty = true;
+
+    const actualSheetRow = rowIndex + 5; // Linha real na planilha
+
+    headers.forEach(function(sheetHeader, colIndex) {
+      const cellValue = row[colIndex];
+      const supabaseColumnName = COLUMN_MAP[sheetHeader];
+
+      // Inclui a verificação `cellValue !== ''` para ignorar células que estão literalmente vazias
+      if (supabaseColumnName && cellValue !== null && cellValue !== undefined && cellValue !== '') {
+        baseRecord[supabaseColumnName] = cellValue;
+        allValuesNullOrEmpty = false;
+      }
+    });
+
+    if (allValuesNullOrEmpty) {
+      Logger.log(`Linha ${actualSheetRow} está vazia ou sem dados válidos para mapear, pulando.`);
+      return;
+    }
+
+    // --- Lógica para criar e enviar dois registros (F e R) ---
+    const suffixes = ['F', 'R'];
+    suffixes.forEach(function(suffix) {
+      const recordToSend = { ...baseRecord }; // Cria uma cópia do registro base
+
+      // Modifica o campo 'abbr' com o sufixo
+      if (recordToSend.abbr) { // Garante que abbr existe antes de modificar
+        recordToSend.abbr = `${recordToSend.abbr} ${suffix}`;
+      } else {
+        // Se 'abbr' estiver vazio na planilha e for not-null no DB, isso pode causar um erro.
+        // Se 'abbr' é nullable, então null + ' F' resultaria em 'null F'. Melhor verificar.
+        recordToSend.abbr = suffix; // Se abbr for null, apenas envie "F" ou "R"
+      }
+      
+      const options = {
+        method: 'POST',
+        contentType: 'application/json',
+        payload: JSON.stringify(recordToSend),
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        },
+        muteHttpExceptions: true
+      };
+
+      const apiUrl = `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE_NAME}`;
+
+      try {
+        const response = UrlFetchApp.fetch(apiUrl, options);
+        const statusCode = response.getResponseCode();
+        const responseBody = response.getContentText();
+
+        if (statusCode >= 200 && statusCode < 300) {
+          Logger.log(`Sucesso ao enviar dados da linha ${actualSheetRow} (abbr: ${recordToSend.abbr}): ${responseBody}`);
+          successCount++;
+        } else {
+          Logger.log(`ERRO ao enviar dados da linha ${actualSheetRow} (abbr: ${recordToSend.abbr}). Status: ${statusCode}, Resposta: ${responseBody}`);
+          errorCount++;
+        }
+      } catch (e) {
+        Logger.log(`EXCEÇÃO inesperada ao enviar dados da linha ${actualSheetRow} (abbr: ${recordToSend.abbr}): ${e.message}`);
+        errorCount++;
+      }
+    }); // Fim do loop suffixes
+  }); // Fim do loop dataRows
+
+  Logger.log(`Processamento concluído! Registros enviados com sucesso: ${successCount}, Registros com erro: ${errorCount}. Para mais detalhes, verifique os Logs no editor (Ctrl+Enter).`);
+}
+
+
+// --- FUNÇÃO PARA CRIAR MENU PERSONALIZADO NA PLANILHA (OPCIONAL) ---
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('Ações Supabase')
+      .addItem('Enviar Dados de Salmão', 'enviarDadosParaSupabase')
+      .addToUi();
+}
