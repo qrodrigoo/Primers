@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitar Amostra</title>
+    <link rel="stylesheet" href="solicitar-style.css">
+</head>
+<body>
+    <main>
+        <h2>Solicitar Amostra</h2>
+
+        <form id="pedidoForm">
+            <div>
+                <label for="pedido-name">Name</label>
+                <input type="text" id="pedido-name" name="name" required>
+            </div>
+            <div>
+                <label for="pedido-sequence">Sequence</label>
+                <input type="text" id="pedido-sequence" name="sequence" required>
+            </div>
+            <div>
+                <label for="pedido-scale">Scale</label>
+                <select id="pedido-scale" name="scale" required></select>
+            </div>
+            <div>
+                <label for="pedido-purification">Purification</label>
+                <select id="pedido-purification" name="purification" required></select>
+            </div>
+            <fieldset>
+                <legend>Internal Modifications</legend>
+                <div>
+                    <label for="pedido-purification">Pos. 5</label>
+                    <select id="pos5" name="purification"></select>
+                </div>
+                <div>
+                    <label for="pedido-purification">Pos. 6</label>
+                    <select id="pos6" name="purification"></select>
+                </div>
+                <div>
+                    <label for="pedido-purification">Pos. 7</label>
+                    <select id="pos7" name="purification"></select>
+                </div>
+                <div>
+                    <label for="pedido-purification">Pos. 8</label>
+                    <select id="pos8" name="purification"></select>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>End Modifications</legend>
+                <div>
+                    <label for="pedido-purification">3'</label>
+                    <select id="end3" name="purification"></select>
+                </div>
+                <div>
+                    <label for="pedido-purification">5'</label>
+                    <select id="end5" name="purification"></select>
+                </div>
+
+            <button type="submit">Enviar Pedido</button>
+            </form>
+
+    </main>
+
+    <script type="module" src="solicitar.script.js"></script>
+</body>
+</html>

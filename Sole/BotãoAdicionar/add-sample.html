@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Nova Amostra</title>
+    <link rel="stylesheet" href="add-sample-style.css">
+</head>
+<body>
+    <main>
+        <h2>Adicionar Nova Amostra</h2>
+
+        <form id="addSampleForm">
+            <div class="form-grid">
+                <div class="form-item">
+                    <label for="abbr">Abbr</label>
+                    <input type="text" id="abbr" name="abbr" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="primer">Primer</label>
+                    <input type="text" id="primer" name="primer">
+                </div>
+
+                <div class="form-item">
+                    <label for="box">Box</label>
+                    <input type="number" id="box" name="box" min="1" max="4" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="box-location">Posição na Box</label>
+                    <input type="text" id="box-location" name="box.location" placeholder="Ex: A1, B5..." required>
+                </div>
+
+
+                <div class="form-item">
+                    <label for="forward">Forward</label>
+                    <input type="text" id="forward" name="forward">
+                </div>
+
+                <div class="form-item">
+                    <label for="reverse">Reverse</label>
+                    <input type="text" id="reverse" name="reverse">
+                </div>
+
+                <div class="form-item">
+                    <label for="temperature_annealing">Temperature Annealing</label>
+                    <input type="text" id="temperature_annealing" name="temperature_annealing">
+                </div>
+
+                <div class="form-item">
+                    <label for="acession_number">Acession Number</label>
+                    <input type="text" id="acession_number" name="acession_number">
+                </div>
+
+                <div class="form-item">
+                    <label for="product_size">Product Size</label>
+                    <input type="text" id="product_size" name="product_size">
+                </div>
+
+                <div class="form-item">
+                    <label for="primers_test">Primers Test</label>
+                    <input type="text" id="primers_test" name="primers_test">
+                </div>
+            </div>
+
+            <h3>Seções de Dados</h3>
+
+            <div class="sections-container">
+
+                <div class="section">
+                    <h4>Hypothalamus</h4>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label for="hypothalamus-slope">Slope</label>
+                            <input type="text" id="hypothalamus-slope" name="hypothalamus.slope">
+                        </div>
+                        <div class="form-item">
+                            <label for="hypothalamus-efficiency">Efficiency</label>
+                            <input type="text" id="hypothalamus-efficiency" name="hypothalamus.efficiency">
+                        </div>
+                        <div class="form-item">
+                            <label for="hypothalamus-efficiency-percent">Efficiency (%)</label>
+                            <input type="text" id="hypothalamus-efficiency-percent" name="hypothalamus.efficiency(%)">
+                        </div>
+                        <div class="form-item">
+                            <label for="hypothalamus-observations">Observations</label>
+                            <input type="text" id="hypothalamus-observations" name="hypothalamus.observations">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Repita isso para as demais seções -->
+                <div class="section">
+                    <h4>Optic-Tectum</h4>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label for="optic-tectum-slope">Slope</label>
+                            <input type="text" id="optic-tectum-slope" name="optic-tectum.slope">
+                        </div>
+                        <div class="form-item">
+                            <label for="optic-tectum-efficiency">Efficiency</label>
+                            <input type="text" id="optic-tectum-efficiency" name="optic-tectum.efficiency">
+                        </div>
+                        <div class="form-item">
+                            <label for="optic-tectum-efficiency-percent">Efficiency (%)</label>
+                            <input type="text" id="optic-tectum-efficiency-percent" name="optic-tectum.efficiency(%)">
+                        </div>
+                        <div class="form-item">
+                            <label for="optic-tectum-observations">Observations</label>
+                            <input type="text" id="optic-tectum-observations" name="optic-tectum.observations">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Head-Kidney Bloco Agrupado -->
+                <div class="section section-grouped">
+                    <h4>Head-Kidney</h4>
+
+                    <div class="subsection">
+                        <h5>Eppendorf</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="head-kidney.eppendorf.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="head-kidney.eppendorf.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="head-kidney.eppendorf.efficiency(%)"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="head-kidney.eppendorf.observations"></div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h5>BIORAD</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="head-kidney.biorad.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="head-kidney.biorad.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="head-kidney.biorad.efficiency(%)"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="head-kidney.biorad.observattions"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Telencephalon -->
+                <div class="section">
+                    <h4>Telencephalon</h4>
+                    <div class="form-grid">
+                        <div class="form-item"><label>Slope</label><input type="text" name="telencephalon.slope"></div>
+                        <div class="form-item"><label>Efficiency</label><input type="text" name="telencephalon.efficiency"></div>
+                        <div class="form-item"><label>Efficiency (%)</label><input type="text" name="telencephalon.efficiency(%)"></div>
+                        <div class="form-item"><label>Observations</label><input type="text" name="telencephalon.observations"></div>
+                    </div>
+                </div>
+
+                <!-- Pituitary -->
+                <div class="section">
+                    <h4>Pituitary</h4>
+                    <div class="form-grid">
+                        <div class="form-item"><label>Slope</label><input type="text" name="pituitary.slope"></div>
+                        <div class="form-item"><label>Efficiency</label><input type="text" name="pituitary.efficiency"></div>
+                        <div class="form-item"><label>Efficiency (%)</label><input type="text" name="pituitary.efficiency(%)"></div>
+                        <div class="form-item"><label>Observations</label><input type="text" name="pituitary.observations"></div>
+                    </div>
+                </div>
+
+                <!-- Brain -->
+                <div class="section">
+                    <h4>Brain</h4>
+                    <div class="form-grid">
+                        <div class="form-item"><label>Slope</label><input type="text" name="brain.slope"></div>
+                        <div class="form-item"><label>Efficiency</label><input type="text" name="brain.efficiency"></div>
+                        <div class="form-item"><label>Efficiency (%)</label><input type="text" name="brain.efficiency(%)"></div>
+                        <div class="form-item"><label>Observations</label><input type="text" name="brain.observations"></div>
+                    </div>
+                </div>
+
+                <!-- Intestine -->
+                <div class="section">
+                    <h4>Intestine</h4>
+                    <div class="form-grid">
+                        <div class="form-item"><label>Slope</label><input type="text" name="intestine.slope"></div>
+                        <div class="form-item"><label>Efficiency</label><input type="text" name="intestine.efficiency"></div>
+                        <div class="form-item"><label>Efficiency (%)</label><input type="text" name="intestine.efficiency(%)"></div>
+                        <div class="form-item"><label>Observations</label><input type="text" name="intestine.observations"></div>
+                    </div>
+                </div>
+
+                <!-- Skin -->
+                <div class="section">
+                    <h4>Skin</h4>
+                    <div class="form-grid">
+                        <div class="form-item"><label>Slope</label><input type="text" name="skin.slope"></div>
+                        <div class="form-item"><label>Efficiency</label><input type="text" name="skin.efficiency"></div>
+                        <div class="form-item"><label>Efficiency (%)</label><input type="text" name="skin.efficiency(%)"></div>
+                        <div class="form-item"><label>Observations</label><input type="text" name="skin.observations"></div>
+                    </div>
+                </div>
+
+                <!-- Larvae -->
+                <div class="section">
+                    <h4>Larvae</h4>
+                    <div class="form-grid">
+                        <div class="form-item"><label>Slope</label><input type="text" name="larvae.slope"></div>
+                        <div class="form-item"><label>Efficiency</label><input type="text" name="larvae.efficiency"></div>
+                        <div class="form-item"><label>Efficiency (%)</label><input type="text" name="larvae.efficiency(%)"></div>
+                        <div class="form-item"><label>Observations</label><input type="text" name="larvae.observations"></div>
+                    </div>
+                </div>
+
+            </div> <!-- Fecha sections-container -->
+
+
+            <div id="extraSectionsContainer"></div>
+
+            <div class="button-row">
+                <button type="submit">Salvar Amostra</button>
+                <button type="button" onclick="window.location.href='../index.html'">Voltar</button>
+            </div>
+        </form>
+    </main>
+
+    <script type="module" src="script-add-sample.js"></script>
+</body>
+</html>
