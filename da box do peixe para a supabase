@@ -1,0 +1,153 @@
+// --- CÓDIGO CORRIGIDO PELA QUARTA VEZ (Desta vez, focando na leitura da coluna correta) ---
+// --- CONFIGURAÇÕES SUPABASE ---
+// VERIFIQUE SUA URL E CHAVE ANON AQUI
+const SUPABASE_URL_BOX = 'https://zjinpbpnjebldikhwofh.supabase.co'; 
+const SUPABASE_ANON_KEY_BOX = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqaW5wYnBuamVibGRpa2h3b2ZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2MzQ3MjMsImV4cCI6MjA2NTIxMDcyM30.fkp-NHgFyZ6KKUjkLgshE90--5NJIi5dlx2_E2PzOFs'; 
+const SUPABASE_TABLE_NAME_BOX = 'Salmon_Box'; 
+
+// --- Mapeamento das linhas para letras (A-J) ---
+const ROW_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+
+// --- FUNÇÃO PRINCIPAL PARA ENVIAR DADOS DA BOX ---
+function enviarDadosBoxParaSupabase() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = spreadsheet.getSheetByName('Salmon_BOX'); 
+  if (!sheet) {
+    Logger.log('Erro: A planilha com o nome especificado não foi encontrada. Verifique o nome da aba.');
+    Browser.msgBox('Erro na planilha', 'A aba com os dados das Boxes não foi encontrada. Verifique o nome na linha "const sheet = spreadsheet.getSheetByName(\'Salmon_BOX\');" do script.', Browser.Buttons.OK);
+    return;
+  }
+
+  const counts = { success: 0, error: 0 };
+  const values = sheet.getDataRange().getValues(); // Lê todos os valores da planilha
+
+  Logger.log('Dimensões do array de valores lidos: ' + values.length + ' linhas x ' + values[0].length + ' colunas.');
+  
+  // --- CONFIGURAÇÕES DOS INTERVALOS DAS BOXES NA PLANILHA ---
+  // Os índices aqui são 0-based para o array 'values'
+  // Box 1 (Dados na planilha da linha 5 à 14, colunas C à L)
+  const box1DataStartRowIdx = 4;   // Linha 5 da planilha (índice 4 no array)
+  const box1DataEndRowIdx = 13;    // Linha 14 da planilha (índice 13 no array)
+  const box1DataStartColIdx = 2;   // <--- CORREÇÃO AQUI: Coluna C da planilha (índice 2 no array)
+  const box1DataEndColIdx = box1DataStartColIdx + 9; // Coluna L (índice 11 no array, se Col C é 2)
+
+  // Box 2 (Dados na planilha da linha 19 à 28, colunas C à L)
+  const box2DataStartRowIdx = 18;  // Linha 19 da planilha (índice 18 no array)
+  const box2DataEndRowIdx = 27;    // Linha 28 da planilha (índice 27 no array)
+  const box2DataStartColIdx = 2;   // <--- CORREÇÃO AQUI: Coluna C da planilha (índice 2 no array)
+  const box2DataEndColIdx = box2DataStartColIdx + 9; // Coluna L (índice 11 no array, se Col C é 2)
+
+  Logger.log('Processando Primers Salmon BOX 1...');
+  processBox(1, box1DataStartRowIdx, box1DataEndRowIdx, box1DataStartColIdx, box1DataEndColIdx, values, counts);
+
+  Logger.log('Processando Primers Salmon BOX 2...');
+  processBox(2, box2DataStartRowIdx, box2DataEndRowIdx, box2DataStartColIdx, box2DataEndColIdx, values, counts);
+
+  const totalProcessed = counts.success + counts.error;
+  if (totalProcessed > 0) {
+    Browser.msgBox('Envio de Dados Concluído', `Processamento finalizado!\nRegistros enviados com sucesso: ${counts.success}\nRegistros com erro: ${counts.error}.\nVerifique os Logs (Extensões > Apps Script > Execuções) para mais detalhes.`, Browser.Buttons.OK);
+  } else {
+    Browser.msgBox('Envio de Dados Concluído', 'Nenhum dado válido encontrado para envio ou todas as células estavam vazias.', Browser.Buttons.OK);
+  }
+  Logger.log(`Processamento concluído! Total de registros enviados com sucesso: ${counts.success}, Total de registros com erro: ${counts.error}.`);
+}
+
+function processBox(boxNumber, dataStartRowIdx, dataEndRowIdx, dataStartColIdx, dataEndColIdx, values, countsRef) {
+  for (let boxColNumber = 1; boxColNumber <= 10; boxColNumber++) { 
+    // Mantenho esta lógica para boxColNumber como 1 a 10 (lógica da Box)
+    // A mudança será em dataStartColIdx para começar a ler da Coluna C
+    const actualDataArrayColIdx = dataStartColIdx + (boxColNumber - 1); // Isso agora vai mapear:
+                                                                         // boxColNumber=1 -> Coluna C (idx 2)
+                                                                         // boxColNumber=2 -> Coluna D (idx 3)
+                                                                         // ...
+                                                                         // boxColNumber=10 -> Coluna L (idx 11)
+
+    for (let sheetRowIdx = dataStartRowIdx; sheetRowIdx <= dataEndRowIdx; sheetRowIdx++) {
+      const sheetRowNumber = sheetRowIdx + 1; 
+
+      const rowLetterIndex = sheetRowIdx - dataStartRowIdx; 
+      const rowLetter = ROW_LETTERS[rowLetterIndex];
+
+      if (rowLetter === undefined) {
+          Logger.log(`Aviso: Letra da linha não encontrada para o índice ${rowLetterIndex} na Box ${boxNumber}, Linha ${sheetRowNumber}. Pode haver mais linhas de dados do que letras mapeadas. Pulando.`);
+          continue;
+      }
+      
+      let actualCellValue = "";
+      if (sheetRowIdx < values.length && actualDataArrayColIdx < values[0].length) {
+          actualCellValue = values[sheetRowIdx][actualDataArrayColIdx];
+      } else {
+          Logger.log(`Aviso: Tentativa de acessar índice fora dos limites do array 'values'. Linha (array): ${sheetRowIdx}, Coluna (array): ${actualDataArrayColIdx}. Pulando.`);
+          continue; 
+      }
+
+      Logger.log(`DEBUG_VALORES: Box ${boxNumber}, Loc: ${rowLetter}${boxColNumber}, SheetRow: ${sheetRowNumber}, ` +
+                  `Val Col de Dados Calculada (idx ${actualDataArrayColIdx} do array): "${actualCellValue}"`);
+
+      const boxLocation = `${rowLetter}${boxColNumber}`;
+      
+      const abbrValue = (actualCellValue + '').trim(); 
+
+      Logger.log(`DEBUG: Box ${boxNumber}, Loc: ${boxLocation}, Sheet Row: ${sheetRowNumber}, Sheet Col (Google Sheets): ${actualDataArrayColIdx + 1}, Valor final para abbr: "${abbrValue}"`);
+
+      if (!abbrValue) {
+        Logger.log(`Célula vazia na Box ${boxNumber}, Localização ${boxLocation}. Pulando.`);
+        continue;
+      }
+
+      const record = {
+        box: boxNumber,
+        "box.location": boxLocation, 
+        abbr: abbrValue
+      };
+
+      sendRecordToSupabase(record, countsRef, 'Salmon_BOX', sheetRowNumber, actualDataArrayColIdx + 1);
+    }
+  }
+}
+
+function sendRecordToSupabase(record, countsRef, sheetName, rowNum, colNum) {
+  const options = {
+    method: 'POST',
+    contentType: 'application/json',
+    payload: JSON.stringify(record),
+    headers: {
+      'apikey': SUPABASE_ANON_KEY_BOX,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY_BOX}`
+    },
+    muteHttpExceptions: true
+  };
+
+  const apiUrl = `${SUPABASE_URL_BOX}/rest/v1/${SUPABASE_TABLE_NAME_BOX}`;
+
+  try {
+    const response = UrlFetchApp.fetch(apiUrl, options);
+    const statusCode = response.getResponseCode();
+    const responseBody = response.getContentText();
+
+    if (statusCode >= 200 && statusCode < 300) {
+      Logger.log(`Sucesso ao enviar dados da Box ${record.box}, Localização ${record["box.location"]} (abbr: ${record.abbr}). Planilha: ${sheetName}, Linha: ${rowNum}, Coluna: ${colNum}.`);
+      countsRef.success++;
+    } else {
+      Logger.log(`ERRO ao enviar dados da Box ${record.box}, Localização ${record["box.location"]} (abbr: ${record.abbr}). Status: ${statusCode}, Resposta: ${responseBody}. Planilha: ${sheetName}, Linha: ${rowNum}, Coluna: ${colNum}.`);
+      countsRef.error++;
+    }
+  } catch (e) {
+    Logger.log(`EXCEÇÃO inesperada ao enviar dados da Box ${record.box}, Localização ${record["box.location"]} (abbr: ${record.abbr}): ${e.message}. Planilha: ${sheetName}, Linha: ${rowNum}, Coluna: ${colNum}.`);
+    countsRef.error++;
+  }
+}
+
+// Esta função onOpen() pode ser combinada com a do Código.gs
+// para ter um único menu com todas as opções.
+// Se você já tem uma onOpen() no Código.gs que adiciona o menu para 'Salmon',
+// pode adicionar esta linha nela:
+// ui.createMenu('Ações Supabase').addItem('Enviar Dados das Salmon Boxes', 'enviarDadosBoxParaSupabase').addToUi();
+/*
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('Ações Supabase Box')
+      .addItem('Enviar Dados das Boxes', 'enviarDadosBoxParaSupabase')
+      .addToUi();
+}
+*/
