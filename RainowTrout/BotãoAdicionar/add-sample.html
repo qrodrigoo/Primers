@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Sample</title>
+    <link rel="stylesheet" href="add-sample-style.css">
+</head>
+<body>
+    <main>
+        <h2>Add New Sample</h2>
+
+        <form id="addSampleForm">
+            <div class="form-grid">
+                <div class="form-item">
+                    <label for="abbr">Abbr</label>
+                    <input type="text" id="abbr" name="abbr" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="primer">Primer</label>
+                    <input type="text" id="primer" name="primer">
+                </div>
+
+                <div class="form-item">
+                    <label for="box">Box</label>
+                    <input type="number" id="box" name="box" min="1" max="4" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="box-location">Position Box</label>
+                    <input type="text" id="box-location" name="box.location" placeholder="Ex: A1, B5..." required>
+                </div>
+
+
+                <div class="form-item">
+                    <label for="forward">Forward</label>
+                    <input type="text" id="forward" name="forward">
+                </div>
+
+                <div class="form-item">
+                    <label for="reverse">Reverse</label>
+                    <input type="text" id="reverse" name="reverse">
+                </div>
+
+                <div class="form-item">
+                    <label for="temperature_annealing">Temperature Annealing</label>
+                    <input type="text" id="temperature_annealing" name="temperature_annealing">
+                </div>
+
+                <div class="form-item">
+                    <label for="acession_number">Acession Number</label>
+                    <input type="text" id="acession_number" name="acession_number">
+                </div>
+
+                <div class="form-item">
+                    <label for="product_size">Product Size</label>
+                    <input type="text" id="product_size" name="product_size">
+                </div>
+
+                <div class="form-item">
+                    <label for="primers_test">Primers Test</label>
+                    <input type="text" id="primers_test" name="primers_test">
+                </div>
+            </div>
+
+            <h3>Data Sections</h3>
+
+            <div class="sections-container">
+
+                <div class="section">
+                    <h4>Sem Título</h4>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label for="view-slope">Slope</label>
+                            <input type="text" id="view-slope" name="view.slope">
+                        </div>
+                        <div class="form-item">
+                            <label for="view-efficiency">Efficiency</label>
+                            <input type="text" id="view-efficiency" name="view.efficiency">
+                        </div>
+                        <div class="form-item">
+                            <label for="view-efficiency-percent">Efficiency (%)</label>
+                            <input type="text" id="view-efficiency-percent" name="view.efficiency(%)">
+                        </div>
+                        <div class="form-item">
+                            <label for="view-observations">Observations</label>
+                            <input type="text" id="view-observations" name="view.observations">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Head-Kidney Bloco Agrupado -->
+                <div class="section section-grouped">
+                    <h4>HK</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad CFX384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="hk.biorad-cfx384.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="hk.biorad-cfx384.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="hk.biorad-cfx384.efficiency(%)"></div>
+                            <div class="form-item"><label>Temperature Annealing</label><input type="text" name="hk.biorad-cfx384.temperature_annealing"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="hk.biorad-cfx384.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-grouped">
+                    <h4>Pituitary Gland</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad CFX384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="pituitary-gland.biorad-cfx384.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="pituitary-gland.biorad-cfx384.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="pituitary-gland.biorad-cfx384.efficiency(%)"></div>
+                            <div class="form-item"><label>Temperature Annealing</label><input type="text" name="pituitary-gland.biorad-cfx384.temperature_annealing"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="pituitary-gland.biorad-cfx384.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-grouped">
+                    <h4>Anterior Intestine</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad CFX384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="anterior-intestine.biorad-cfx384.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="anterior-intestine.biorad-cfx384.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="anterior-intestine.biorad-cfx384.efficiency(%)"></div>
+                            <div class="form-item"><label>Temperature Annealing</label><input type="text" name="anterior-intestine.biorad-cfx384.temperature_annealing"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="anterior-intestine.biorad-cfx384.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-grouped">
+                    <h4>Hypothalamus</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad CFX384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="hypothalamus.biorad-cfx384.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="hypothalamus.biorad-cfx384.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="hypothalamus.biorad-cfx384.efficiency(%)"></div>
+                            <div class="form-item"><label>Temperature Annealing</label><input type="text" name="hypothalamus.biorad-cfx384.temperature_annealing"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="hypothalamus.biorad-cfx384.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-grouped">
+                    <h4>Liver</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad CFX384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="liver.biorad-cfx384.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="liver.biorad-cfx384.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="liver.biorad-cfx384.efficiency(%)"></div>
+                            <div class="form-item"><label>Temperature Annealing</label><input type="text" name="liver.biorad-cfx384.temperature_annealing"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="liver.biorad-cfx384.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-grouped">
+                    <h4>Skin</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad CFX384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="skin.biorad-cfx384.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="skin.biorad-cfx384.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="skin.biorad-cfx384.efficiency(%)"></div>
+                            <div class="form-item"><label>Temperature Annealing</label><input type="text" name="skin.biorad-cfx384.temperature_annealing"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="skin.biorad-cfx384.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-grouped">
+                    <h4>Gills</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad CFX384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="gills.biorad-cfx384.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="gills.biorad-cfx384.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="gills.biorad-cfx384.efficiency(%)"></div>
+                            <div class="form-item"><label>Temperature Annealing</label><input type="text" name="gills.biorad-cfx384.temperature_annealing"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="gills.biorad-cfx384.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div> <!-- Fecha sections-container -->
+
+
+            <div id="extraSectionsContainer"></div>
+
+            <div class="button-row">
+                <button type="submit">Save Sample</button>
+                <button type="button" onclick="window.location.href='../rainowtrout-index.html'">Voltar</button>
+            </div>
+        </form>
+    </main>
+
+    <script type="module" src="script-add-sample.js"></script>
+</body>
+</html>

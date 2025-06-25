@@ -68,46 +68,42 @@
             <div class="sections-container">
 
                 <div class="section">
-                    <h4>Sem Título</h4>
+                    <h4>Head-kidney</h4>
                     <div class="form-grid">
                         <div class="form-item">
-                            <label for="view-slope">Slope</label>
-                            <input type="text" id="view-slope" name="slope">
+                            <label for="head-kidney.slope">Slope</label>
+                            <input type="text" id="head-kidney.slope" name="head-kidney.slope">
                         </div>
                         <div class="form-item">
-                            <label for="view-efficiency">Efficiency</label>
-                            <input type="text" id="view-efficiency" name="efficiency">
+                            <label for="head-kidney.temperature_annealing">Temperature Annealing</label>
+                            <input type="text" id="head-kidney.temperature_annealing" name="head-kidney.temperature_annealing">
                         </div>
                         <div class="form-item">
-                            <label for="efficiency-percent">Efficiency (%)</label>
-                            <input type="text" id="efficiency-percent" name="efficiency(%)">
+                            <label for="hypothalamus-efficiency">Efficiency</label>
+                            <input type="text" id="hypothalamus-efficiency" name="head-kidney.efficiency">
                         </div>
                         <div class="form-item">
-                            <label for="view-observations">Observations</label>
-                            <input type="text" id="view-observations" name="observations">
+                            <label for="hypothalamus-efficiency-percent">Efficiency (%)</label>
+                            <input type="text" id="hypothalamus-efficiency-percent" name="head-kidney.efficiency(%)">
+                        </div>
+                        <div class="form-item">
+                            <label for="hypothalamus-observations">Observations</label>
+                            <input type="text" id="hypothalamus-observations" name="head-kidney.observations">
                         </div>
                     </div>
                 </div>
 
-                <!-- Repita isso para as demais seções -->
-                <div class="section">
-                    <h4>Larvae</h4>
-                    <div class="form-grid">
-                        <div class="form-item">
-                            <label for="larvae-slope">Slope</label>
-                            <input type="text" id="larvae-slope" name="larvae.slope">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-efficiency">Efficiency</label>
-                            <input type="text" id="larvae-efficiency" name="larvae.efficiency">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-efficiency-percent">Efficiency (%)</label>
-                            <input type="text" id="larvae-efficiency-percent" name="larvae.efficiency(%)">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-observations">Observations</label>
-                            <input type="text" id="larvae-observations" name="larvae.observattions">
+                <!-- Head-Kidney Bloco Agrupado -->
+                <div class="section section-grouped">
+                    <h4>Intestine</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad 384</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="head-kidney.biorad.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="head-kidney.biorad.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="head-kidney.biorad.efficiency(%)"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="head-kidney.biorad.observattions"></div>
                         </div>
                     </div>
                 </div>
@@ -118,7 +114,7 @@
 
             <div class="button-row">
                 <button type="submit">Save Sample</button>
-                <button type="button" onclick="window.location.href='../sole-index.html'">Back</button>
+                <button type="button" onclick="window.location.href='../salmon-index.html'">Back</button>
             </div>
         </form>
     </main>

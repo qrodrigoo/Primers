@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Sample</title>
-    <link rel="stylesheet" href="add-sample-style.css">
+    <title>Edit Data</title>
+    <link rel="stylesheet" href="edit-sample-style.css">
 </head>
 <body>
     <main>
-        <h2>Add New Sample</h2>
+        <h2>Edit Data</h2>
 
         <form id="addSampleForm">
             <div class="form-grid">
@@ -23,7 +23,7 @@
 
                 <div class="form-item">
                     <label for="box">Box</label>
-                    <input type="number" id="box" name="box" min="1" max="4" required>
+                    <input type="number" id="box" name="box" min="1" max="4" required placeholder="Número da caixa">
                 </div>
 
                 <div class="form-item">
@@ -68,61 +68,39 @@
             <div class="sections-container">
 
                 <div class="section">
-                    <h4>Sem Título</h4>
+                    <h4>Biorad 384</h4>
                     <div class="form-grid">
                         <div class="form-item">
-                            <label for="view-slope">Slope</label>
-                            <input type="text" id="view-slope" name="slope">
+                            <label for="biorad-slope">Slope</label>
+                            <input type="text" id="biorad-slope" name="biorad_384.slope">
                         </div>
                         <div class="form-item">
-                            <label for="view-efficiency">Efficiency</label>
-                            <input type="text" id="view-efficiency" name="efficiency">
+                            <label for="biorad-efficiency">Efficiency</label>
+                            <input type="text" id="biorad-efficiency" name="biorad_384.efficiency">
                         </div>
                         <div class="form-item">
-                            <label for="efficiency-percent">Efficiency (%)</label>
-                            <input type="text" id="efficiency-percent" name="efficiency(%)">
+                            <label for="biorad-efficiency-percent">Efficiency (%)</label>
+                            <input type="text" id="biorad-efficiency-percent" name="biorad_384.efficiency(%)">
                         </div>
                         <div class="form-item">
-                            <label for="view-observations">Observations</label>
-                            <input type="text" id="view-observations" name="observations">
+                            <label for="biorad-observations">Observations</label>
+                            <input type="text" id="biorad-observations" name="biorad_384.observations">
                         </div>
                     </div>
                 </div>
 
-                <!-- Repita isso para as demais seções -->
-                <div class="section">
-                    <h4>Larvae</h4>
-                    <div class="form-grid">
-                        <div class="form-item">
-                            <label for="larvae-slope">Slope</label>
-                            <input type="text" id="larvae-slope" name="larvae.slope">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-efficiency">Efficiency</label>
-                            <input type="text" id="larvae-efficiency" name="larvae.efficiency">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-efficiency-percent">Efficiency (%)</label>
-                            <input type="text" id="larvae-efficiency-percent" name="larvae.efficiency(%)">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-observations">Observations</label>
-                            <input type="text" id="larvae-observations" name="larvae.observattions">
-                        </div>
-                    </div>
-                </div>
             </div> <!-- Fecha sections-container -->
 
 
             <div id="extraSectionsContainer"></div>
 
             <div class="button-row">
-                <button type="submit">Save Sample</button>
-                <button type="button" onclick="window.location.href='../sole-index.html'">Back</button>
+                <button type="submit" id="saveBtn">Save Changes</button>
+                <button type="button" onclick="window.location.href='../shrimp-index.html'">Back</button>
             </div>
         </form>
     </main>
 
-    <script type="module" src="script-add-sample.js"></script>
+    <script type="module" src="script-edit-sample.js"></script>
 </body>
 </html>

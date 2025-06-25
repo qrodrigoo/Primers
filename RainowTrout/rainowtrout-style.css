@@ -248,26 +248,57 @@ header h1 {
     text-align: center;
 }
 
-.details-grid {
-    display: block;
-    grid-template-columns: auto 1fr;
-    gap: 8px 15px;
-}
-
+/* Modifique o .detail-item para usar flexbox e alinhar o conteúdo */
 .detail-item {
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Ajusta o espaçamento abaixo de cada item de detalhe */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/* Opcional: Para remover qualquer margem padrão do parágrafo que possa estar atrapalhando */
+.detail-item p {
+    margin: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Garanta que o parágrafo dentro do detail-item não interfira no layout flex */
+.detail-item p {
+    margin: 0; /* Remove a margem padrão do parágrafo */
+    display: flex; /* Garante que os spans dentro do p também se comportem como flex */
+    width: 100%; /* Faz o p ocupar toda a largura disponível */
+    justify-content: space-between; /* Distribui o rótulo e o valor */
+    align-items: center;
+    font-size: 0.9em; /* Ajuste o tamanho da fonte se necessário */
+    color: #666; /* Cor padrão para o texto */
 }
 
 
+/* Reajuste os estilos para os rótulos */
 .detail-label {
-    font-weight: bold;
-    color: #333333;
-    text-align: left;
+    font-weight: bold; /* Ou use 600, 700, 800 para diferentes níveis de negrito */
+    color: #333333; /* A cor do texto para o rótulo */
+    white-space: nowrap; /* Impede que o texto do rótulo quebre a linha */
+    padding-right: 10px; /* Adiciona um pequeno espaço entre o rótulo e o valor */
 }
 
+/* Opcional: Se precisar de mais controle e houver um estilo que esteja sobrescrevendo */
+.detail-item p .detail-label {
+    font-weight: bold !important; /* Use !important com cautela, apenas se necessário para forçar */
+}
+
+/* Reajuste os estilos para os valores */
 .detail-value {
-    font-weight: bold;
-    color: #333333;
+    font-weight: bold; /* Já está negrito, mas pode ajustar a intensidade se precisar */
+    color: #333333; /* Cor para o valor (pode ser diferente do rótulo) */
+    text-align: right; /* Garante que o valor se alinhe à direita */
+    word-break: break-all; /* Permite que textos longos quebrem a linha se necessário */
 }
 
 /* --- NOVOS ESTILOS PARA HEAD-KIDNEY E SUAS SUBSEÇÕES --- */

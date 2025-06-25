@@ -27,7 +27,7 @@ async function testSupabaseConnection() {
     console.log("--- Iniciando Teste de Conexão Supabase ---");
     try {
         const { data, error } = await supabase
-            .from('Seabass') // Tente buscar de uma de suas tabelas principais
+            .from('Turbot') // Tente buscar de uma de suas tabelas principais
             .select('abbr') // Apenas busca uma coluna para um teste rápido
             .limit(1);
 
@@ -54,7 +54,7 @@ function initializeLocationBoxes() {
     allBoxesContainer.innerHTML = ''; // Limpa qualquer caixa existente
     const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
-    for (let boxNum = 1; boxNum <= 4; boxNum++) {
+    for (let boxNum = 1; boxNum <= 2; boxNum++) {
         const boxGroup = document.createElement('div');
         boxGroup.classList.add('box-group');
 
@@ -102,7 +102,7 @@ async function fetchBoxLocations() {
     console.log("fetchBoxLocations: Tentando buscar localizações da caixa...");
     try {
         const { data, error } = await supabase
-            .from('Seabass_BOX')
+            .from('Turbot_BOX')
             .select('abbr, box, "box.location"'); // Use aspas duplas para "box.location"
 
         if (error) {
@@ -110,7 +110,7 @@ async function fetchBoxLocations() {
             return {}; 
         }
 
-        console.log("fetchBoxLocations: Dados brutos de Seabass_BOX recebidos:", data);
+        console.log("fetchBoxLocations: Dados brutos de Turbot_BOX recebidos:", data);
 
         const mappedLocations = {};
         data.forEach(item => {
@@ -211,10 +211,10 @@ function highlightLocation(abbr) {
 
 
 async function fetchSeabassData() {
-    console.log("fetchSeabassData: Tentando buscar todos os dados de Seabass...");
+    console.log("fetchSeabassData: Tentando buscar todos os dados de Turbot...");
     try {
         const { data, error } = await supabase
-            .from('Seabass')
+            .from('Turbot')
             .select(`
                 abbr,
                 primer,
@@ -224,58 +224,30 @@ async function fetchSeabassData() {
                 acession_number,
                 product_size,
                 primers_test,
-                "head-kidney.eppendorf.slope",
-                "head-kidney.eppendorf.efficiency",
-                "head-kidney.eppendorf.efficiency(%)",
-                "head-kidney.eppendorf.observations",
-                "head-kidney.biorad.slope",
-                "head-kidney.biorad.efficiency",
-                "head-kidney.biorad.efficiency(%)",
-                "head-kidney.biorad.observattions",
-                "hypothalamus.slope",
-                "hypothalamus.efficiency",
-                "hypothalamus.efficiency(%)",
-                "hypothalamus.observations",
-                "optic-tectum.slope",
-                "optic-tectum.efficiency",
-                "optic-tectum.efficiency(%)",
-                "optic-tectum.observations",
-                "telencephalon.slope",
-                "telencephalon.efficiency",
-                "telencephalon.efficiency(%)",
-                "telencephalon.observations",
-                "pituitary.slope",
-                "pituitary.efficiency",
-                "pituitary.efficiency(%)",
-                "pituitary.observations",
-                "brain.slope",
-                "brain.efficiency",
-                "brain.efficiency(%)",
-                "brain.observations",
-                "intestine.slope",
-                "intestine.efficiency",
-                "intestine.efficiency(%)",
-                "intestine.observations",
-                "skin.slope",
-                "skin.efficiency",
-                "skin.efficiency(%)",
-                "skin.observations",
-                "larvae.slope",
-                "larvae.efficiency",
-                "larvae.efficiency(%)",
-                "larvae.observations"
+                "liver.biorad-real-time.slope",
+                "liver.biorad-real-time.efficiency",
+                "liver.biorad-real-time.efficiency(%)",
+                "liver.biorad-real-time.observations",
+                "gut.biorad-real-time.slope",
+                "gut.biorad-real-time.efficiency",
+                "gut.biorad-real-time.efficiency(%)",
+                "gut.biorad-real-time.observations",
+                "muscle.biorad-real-time.slope",
+                "muscle.biorad-real-time.efficiency",
+                "muscle.biorad-real-time.liver.efficiency(%)",
+                "muscle.biorad-real-time.observations"
             `);
 
         if (error) {
-            console.error("fetchSeabassData: ERRO ao buscar dados de Seabass:", error.message);
+            console.error("fetchSeabassData: ERRO ao buscar dados de Turbot:", error.message);
             return [];
         }
 
         allSeabassSamples = data;
-        console.log("fetchSeabassData: Dados de Seabass buscados com sucesso:", allSeabassSamples);
+        console.log("fetchSeabassData: Dados de Turbot buscados com sucesso:", allSeabassSamples);
         return data;
     } catch (error) {
-        console.error("fetchSeabassData: ERRO inesperado ao buscar dados de Seabass:", error);
+        console.error("fetchSeabassData: ERRO inesperado ao buscar dados de Turbot:", error);
         return [];
     }
 }
@@ -314,65 +286,23 @@ function displayDetails(primerData) {
         'detail-product-size': 'product_size',
         'detail-primers-test': 'primers_test',
 
-        // Head-kidney - Eppendorf
-        'eppendorf-slope': 'head-kidney.eppendorf.slope',
-        'eppendorf-efficiency': 'head-kidney.eppendorf.efficiency',
-        'eppendorf-efficiency-percent': 'head-kidney.eppendorf.efficiency(%)',
-        'eppendorf-observations': 'head-kidney.eppendorf.observations',
+        // Liver
+        'liver-biorad-real-time-slope': 'liver.biorad-real-time.slope',
+        'liver-biorad-real-time-efficiency': 'liver.biorad-real-time.efficiency',
+        'liver-biorad-real-time-efficiency-percent': 'liver.biorad-real-time.efficiency(%)',
+        'liver-biorad-real-time-observations': 'liver.biorad-real-time.observations',
 
-        // Head-kidney - BIORAD
-        'biorad-slope': 'head-kidney.biorad.slope',
-        'biorad-efficiency': 'head-kidney.biorad.efficiency',
-        'biorad-efficiency-percent': 'head-kidney.biorad.efficiency(%)',
-        'biorad-observattions': 'head-kidney.biorad.observattions',
+        // Gui
+        'gut-biorad-real-time-slope': 'gut.biorad-real-time.slope',
+        'gut-biorad-real-time-efficiency': 'gut.biorad-real-time.efficiency',
+        'gut-biorad-real-time-efficiency-percent': 'gut.biorad-real-time.efficiency(%)',
+        'gut-biorad-real-time-observations': 'gut.biorad-real-time.observations',
 
-        // Hypothalamus
-        'hypothalamus-slope': 'hypothalamus.slope',
-        'hypothalamus-efficiency': 'hypothalamus.efficiency',
-        'hypothalamus-efficiency-percent': 'hypothalamus.efficiency(%)',
-        'hypothalamus-observations': 'hypothalamus.observations',
-
-        // Optic-Tectum
-        'optic-tectum-slope': 'optic-tectum.slope',
-        'optic-tectum-efficiency': 'optic-tectum.efficiency',
-        'optic-tectum-efficiency-percent': 'optic-tectum.efficiency(%)',
-        'optic-tectum-observations': 'optic-tectum.observations',
-
-        // Telencephalon
-        'telencephalon-slope': 'telencephalon.slope',
-        'telencephalon-efficiency': 'telencephalon.efficiency',
-        'telencephalon-efficiency-percent': 'telencephalon.efficiency(%)',
-        'telencephalon-observations': 'telencephalon.observations',
-
-        // Pituitary
-        'pituitary-slope': 'pituitary.slope',
-        'pituitary-efficiency': 'pituitary.efficiency',
-        'pituitary-efficiency-percent': 'pituitary.efficiency(%)',
-        'pituitary-observations': 'pituitary.observations',
-
-        // Brain
-        'brain-slope': 'brain.slope',
-        'brain-efficiency': 'brain.efficiency',
-        'brain-efficiency-percent': 'brain.efficiency(%)',
-        'brain-observations': 'brain.observations',
-
-        // Intestine
-        'intestine-slope': 'intestine.slope',
-        'intestine-efficiency': 'intestine.efficiency',
-        'intestine-efficiency-percent': 'intestine.efficiency(%)',
-        'intestine-observations': 'intestine.observations',
-
-        // Skin
-        'skin-slope': 'skin.slope',
-        'skin-efficiency': 'skin.efficiency',
-        'skin-efficiency-percent': 'skin.efficiency(%)',
-        'skin-observations': 'skin.observations',
-
-        // Larvae
-        'larvae-slope': 'larvae.slope',
-        'larvae-efficiency': 'larvae.efficiency',
-        'larvae-efficiency-percent': 'larvae.efficiency(%)',
-        'larvae-observations': 'larvae.observations'
+        // Muscle
+        'muscle-biorad-real-time-slope': 'muscle.biorad-real-time.slope',
+        'muscle-biorad-real-time-efficiency': 'muscle.biorad-real-time.efficiency',
+        'muscle-biorad-real-time-liver-efficiency-percent': 'muscle.biorad-real-time.liver.efficiency(%)',
+        'muscle-biorad-real-time-observations': 'muscle.biorad-real-time.observations'
     };
 
     for (const id in detailMapping) {
@@ -459,7 +389,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayDetails(null);
     }
 
-    console.log("DOMContentLoaded: Página Seabass inicializada.");
+    console.log("DOMContentLoaded: Página Turbot inicializada.");
 
     document.getElementById('deleteSampleBtn').addEventListener('click', async () => {
     if (selectedRowIndex === -1 || !filteredSamples[selectedRowIndex]) {
@@ -474,20 +404,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 1. Deleta da tabela Seabass
     const { error: errorSeabass } = await supabase
-        .from('Seabass')
+        .from('Turbot')
         .delete()
         .eq('abbr', sample.abbr);
 
     // 2. Deleta da tabela Seabass_BOX
     const { error: errorBox } = await supabase
-        .from('Seabass_BOX')
+        .from('Turbot_BOX')
         .delete()
         .eq('abbr', sample.abbr);
 
     if (errorSeabass || errorBox) {
         alert("Erro ao excluir a amostra.");
-        console.error("Erro ao excluir da Seabass:", errorSeabass);
-        console.error("Erro ao excluir da Seabass_BOX:", errorBox);
+        console.error("Erro ao excluir da Turbot:", errorSeabass);
+        console.error("Erro ao excluir da Turbot_BOX:", errorBox);
         return;
     }
 

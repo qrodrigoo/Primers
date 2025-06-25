@@ -15,9 +15,9 @@ form.addEventListener('submit', async (event) => {
     // Dados principais
     const abbr = formData.get('abbr');
     const box = formData.get('box');
-    const boxLocation = formData.get('box.location');
+    const boxLocation = formData.get('box.location'); // Assumindo que 'box.location' vem do formulário
 
-    // Campos da tabela Seabass (exceto box)
+    // Campos da tabela Salmon (todas as colunas, exceto as da Salmon_BOX que são tratadas separadamente)
     const baseData = {
         abbr,
         primer: formData.get('primer'),
@@ -27,62 +27,68 @@ form.addEventListener('submit', async (event) => {
         acession_number: formData.get('acession_number'),
         product_size: formData.get('product_size'),
         primers_test: formData.get('primers_test'),
-        // **ADICIONADO:** Campos da seção "Sem Título" explicitamente
-        slope: formData.get('slope'),
-        efficiency: formData.get('efficiency'),
-        'efficiency(%)': formData.get('efficiency(%)'), // Atenção: use aspas para caracteres especiais na chave
-        observations: formData.get('observations'),
+        // Novas colunas da tabela Salmon
+        "head-kidney.slope" : formData.get('head-kidney.slope'),
+        "head-kidney.temperature_annealing": formData.get('head-kidney.temperature_annealing'),
+        "head-kidney.efficiency": formData.get('head-kidney.efficiency'),
+        "head-kidney.efficiency(%)": formData.get('head-kidney.efficiency(%)'),
+        "head-kidney.observations": formData.get('head-kidney.observations'),
+        "head-kidney.biorad.slope": formData.get('head-kidney.biorad.slope'),
+        "head-kidney.biorad.efficiency": formData.get('head-kidney.biorad.efficiency'),
+        "head-kidney.biorad.efficiency(%)": formData.get('head-kidney.biorad.efficiency(%)'),
+        "head-kidney.biorad.observattions": formData.get('head-kidney.biorad.observattions')
     };
 
-    // Preencher dados das seções (estáticos e dinâmicos)
-    formData.forEach((value, key) => {
-        if (
-            key.includes('.') &&
-            !['box.location'].includes(key) // evita incluir box.location na tabela errada
-        ) {
-            baseData[key] = value;
+    // Filtra campos nulos ou vazios para não tentar inserir 'null' em colunas não nulas, se aplicável
+    // E garante que apenas as colunas válidas para 'Salmon' sejam incluídas
+    const filteredBaseData = {};
+    for (const key in baseData) {
+        if (baseData[key] !== null && baseData[key] !== undefined && baseData[key] !== '') {
+            filteredBaseData[key] = baseData[key];
         }
-    });
+    }
 
     const sampleToEdit = localStorage.getItem('sampleToEdit');
-    let errorSeabass, errorBox;
+    let errorSalmon, errorBox;
 
     if (sampleToEdit) {
         // MODO EDIÇÃO
         const original = JSON.parse(sampleToEdit);
 
-        ({ error: errorSeabass } = await supabase
-            .from('Sole')
-            .update(baseData)
+        // Atualiza a tabela Salmon
+        ({ error: errorSalmon } = await supabase
+            .from('Salmon') // Mantido como Salmon
+            .update(filteredBaseData) // Usa os dados filtrados
             .eq('abbr', original.abbr));
 
+        // Atualiza a tabela Salmon_BOX
         ({ error: errorBox } = await supabase
-            .from('Sole_BOX')
+            .from('Salmon_BOX') // <<< CORRIGIDO PARA Salmon_BOX
             .update({ abbr, box, 'box.location': boxLocation })
             .eq('abbr', original.abbr));
-
-        localStorage.removeItem('sampleToEdit');
     } else {
         // MODO ADIÇÃO
-        ({ error: errorSeabass } = await supabase.from('Sole').insert([baseData]));
+        // Insere na tabela Salmon
+        ({ error: errorSalmon } = await supabase.from('Salmon').insert([filteredBaseData])); // Mantido como Salmon
 
-        ({ error: errorBox } = await supabase.from('Sole_BOX').insert([
+        // Insere na tabela Salmon_BOX
+        ({ error: errorBox } = await supabase.from('Salmon_BOX').insert([ // <<< CORRIGIDO PARA Salmon_BOX
             { abbr, box, 'box.location': boxLocation }
         ]));
     }
 
     // Verificação final
-    if (errorSeabass || errorBox) {
+    if (errorSalmon || errorBox) {
         alert('Erro ao salvar:\n' +
-            (errorSeabass?.message || '') + '\n' +
+            (errorSalmon?.message || '') + '\n' +
             (errorBox?.message || ''));
-        console.error('Erro Sole:', errorSeabass);
-        console.error('Erro Sole_BOX:', errorBox);
+        console.error('Erro Salmon:', errorSalmon);
+        console.error('Erro Salmon_BOX:', errorBox); // <<< CORRIGIDO PARA Salmon_BOX
     } else {
         alert(sampleToEdit ? 'Amostra editada com sucesso!' : 'Amostra adicionada com sucesso!');
         form.reset();
         dynamicSectionsContainer.innerHTML = '';
-        window.location.href = '../sole-index.html';
+        window.location.href = '../salmon-index.html';
     }
 });
 

@@ -64,59 +64,56 @@
             </div>
 
             <h3>Data Sections</h3>
+                <!-- Head-Kidney Bloco Agrupado -->
+                <div class="section section-grouped">
+                    <h4>Liver</h4>
 
-            <div class="sections-container">
-
-                <div class="section">
-                    <h4>Sem Título</h4>
-                    <div class="form-grid">
-                        <div class="form-item">
-                            <label for="view-slope">Slope</label>
-                            <input type="text" id="view-slope" name="slope">
-                        </div>
-                        <div class="form-item">
-                            <label for="view-efficiency">Efficiency</label>
-                            <input type="text" id="view-efficiency" name="efficiency">
-                        </div>
-                        <div class="form-item">
-                            <label for="efficiency-percent">Efficiency (%)</label>
-                            <input type="text" id="efficiency-percent" name="efficiency(%)">
-                        </div>
-                        <div class="form-item">
-                            <label for="view-observations">Observations</label>
-                            <input type="text" id="view-observations" name="observations">
+                    <div class="subsection">
+                        <h5>Biorad Real-time</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="liver.biorad-real-time.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="liver.biorad-real-time.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="liver.biorad-real-time.efficiency(%)"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="liver.biorad-real-time.observations"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Repita isso para as demais seções -->
-                <div class="section">
-                    <h4>Larvae</h4>
-                    <div class="form-grid">
-                        <div class="form-item">
-                            <label for="larvae-slope">Slope</label>
-                            <input type="text" id="larvae-slope" name="larvae.slope">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-efficiency">Efficiency</label>
-                            <input type="text" id="larvae-efficiency" name="larvae.efficiency">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-efficiency-percent">Efficiency (%)</label>
-                            <input type="text" id="larvae-efficiency-percent" name="larvae.efficiency(%)">
-                        </div>
-                        <div class="form-item">
-                            <label for="larvae-observations">Observations</label>
-                            <input type="text" id="larvae-observations" name="larvae.observattions">
-                        </div>
+                <div class="section section-grouped">
+                    <h4>Gut</h4>
 
+                    <div class="subsection">
+                        <h5>Biorad Real-time</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="gut.biorad-real-time.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="gut.biorad-real-time.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="gut.biorad-real-time.efficiency(%)"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="gut.biorad-real-time.observations"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section section-grouped">
+                    <h4>Muscle</h4>
+
+                    <div class="subsection">
+                        <h5>Biorad Real-time</h5>
+                        <div class="form-grid">
+                            <div class="form-item"><label>Slope</label><input type="text" name="muscle.biorad-real-time.slope"></div>
+                            <div class="form-item"><label>Efficiency</label><input type="text" name="muscle.biorad-real-time.efficiency"></div>
+                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="muscle.biorad-real-time.liver.efficiency(%)"></div>
+                            <div class="form-item"><label>Observations</label><input type="text" name="muscle.biorad-real-time.observations"></div>
+                        </div>
+                    </div>
+                </div>
             </div> <!-- Fecha sections-container -->
+
 
             <div id="extraSectionsContainer"></div>
 
             <div class="button-row">
                 <button type="submit" id="saveBtn">Save Changes</button>
-                <button type="button" onclick="window.location.href='../sole-index.html'">Back</button>
+                <button type="button" onclick="window.location.href='../turbot-index.html'">Back</button>
             </div>
         </form>
     </main>

@@ -27,11 +27,6 @@ form.addEventListener('submit', async (event) => {
         acession_number: formData.get('acession_number'),
         product_size: formData.get('product_size'),
         primers_test: formData.get('primers_test'),
-        // **ADICIONADO:** Campos da seção "Sem Título" explicitamente
-        slope: formData.get('slope'),
-        efficiency: formData.get('efficiency'),
-        'efficiency(%)': formData.get('efficiency(%)'), // Atenção: use aspas para caracteres especiais na chave
-        observations: formData.get('observations'),
     };
 
     // Preencher dados das seções (estáticos e dinâmicos)
@@ -52,21 +47,21 @@ form.addEventListener('submit', async (event) => {
         const original = JSON.parse(sampleToEdit);
 
         ({ error: errorSeabass } = await supabase
-            .from('Sole')
+            .from('Seabream')
             .update(baseData)
             .eq('abbr', original.abbr));
 
         ({ error: errorBox } = await supabase
-            .from('Sole_BOX')
+            .from('Seabream_BOX')
             .update({ abbr, box, 'box.location': boxLocation })
             .eq('abbr', original.abbr));
 
         localStorage.removeItem('sampleToEdit');
     } else {
         // MODO ADIÇÃO
-        ({ error: errorSeabass } = await supabase.from('Sole').insert([baseData]));
+        ({ error: errorSeabass } = await supabase.from('Seabream').insert([baseData]));
 
-        ({ error: errorBox } = await supabase.from('Sole_BOX').insert([
+        ({ error: errorBox } = await supabase.from('Seabream_BOX').insert([
             { abbr, box, 'box.location': boxLocation }
         ]));
     }
@@ -76,13 +71,13 @@ form.addEventListener('submit', async (event) => {
         alert('Erro ao salvar:\n' +
             (errorSeabass?.message || '') + '\n' +
             (errorBox?.message || ''));
-        console.error('Erro Sole:', errorSeabass);
-        console.error('Erro Sole_BOX:', errorBox);
+        console.error('Erro Seabream:', errorSeabass);
+        console.error('Erro Seabream_BOX:', errorBox);
     } else {
         alert(sampleToEdit ? 'Amostra editada com sucesso!' : 'Amostra adicionada com sucesso!');
         form.reset();
         dynamicSectionsContainer.innerHTML = '';
-        window.location.href = '../sole-index.html';
+        window.location.href = '../Seabream-index.html';
     }
 });
 

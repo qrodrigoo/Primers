@@ -32,20 +32,20 @@ form.addEventListener('submit', async (event) => {
     const original = JSON.parse(sampleToEdit);
 
     ({ error: errorSeabass } = await supabase
-      .from('Sole')
+      .from('Turbot')
       .update(baseData)
       .eq('abbr', original.abbr));
 
     ({ error: errorBox } = await supabase
-      .from('Sole_BOX')
+      .from('Turbot_BOX')
       .update({ abbr, box, 'box.location': boxLocation })
       .eq('abbr', original.abbr));
 
     localStorage.removeItem('sampleToEdit');
   } else {
-    ({ error: errorSeabass } = await supabase.from('Sole').insert([baseData]));
+    ({ error: errorSeabass } = await supabase.from('Turbot').insert([baseData]));
 
-    ({ error: errorBox } = await supabase.from('Sole_BOX').insert([
+    ({ error: errorBox } = await supabase.from('Turbot_BOX').insert([
       { abbr, box, 'box.location': boxLocation }
     ]));
   }
@@ -54,13 +54,13 @@ form.addEventListener('submit', async (event) => {
     alert('Erro ao salvar:\n' +
       (errorSeabass?.message || '') + '\n' +
       (errorBox?.message || ''));
-    console.error('Erro Sole', errorSeabass);
-    console.error('Erro Sole_BOX:', errorBox);
+    console.error('Erro Turbot:', errorSeabass);
+    console.error('Erro Turbot_BOX:', errorBox);
   } else {
     alert(sampleToEdit ? 'Amostra editada com sucesso!' : 'Amostra adicionada com sucesso!');
     form.reset();
     dynamicSectionsContainer.innerHTML = '';
-    window.location.href = '../sole-index.html';
+    window.location.href = '../turbot-index.html';
   }
 });
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Busca dados da tabela Seabass_BOX
   const { data: boxData, error: boxError } = await supabase
-    .from('Sole_BOX')
+    .from('Turbot_BOX')
     .select('box, "box.location"')
     .eq('abbr', sampleData.abbr)
     .single();
