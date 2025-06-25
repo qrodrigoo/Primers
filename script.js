@@ -86,6 +86,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (btnClamD) {
+        btnClamD.addEventListener('click', () => {
+            console.log('Botão "btnClamD" clicado!');
+            // Futuramente: Redirecionar para a página de Sole
+            window.location.href = './ClamDecussatus/clam-decussatus-index.html'; // Redireciona para a nova página
+
+        });
+    }
+
+    if (btnClamP) {
+        btnClamP.addEventListener('click', () => {
+            console.log('Botão "btnClamD" clicado!');
+            // Futuramente: Redirecionar para a página de Sole
+            window.location.href = './ClamPhilippinarum/clam-philippinarum-index.html'; // Redireciona para a nova página
+
+        });
+    }
+
+    if (btnDanio) {
+        btnDanio.addEventListener('click', () => {
+            console.log('Botão "btnDanio" clicado!');
+            // Futuramente: Redirecionar para a página de Sole
+            window.location.href = './DanioRerio/danio-index.html'; // Redireciona para a nova página
+
+        });
+    }
+
     if (btnsample) {
         btnsample.addEventListener('click', () => {
             console.log('Botão "Ask for Sample" clicado! Redirecionando para a página de detalhes...');

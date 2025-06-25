@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seabass</title>
+    <link rel="stylesheet" href="danio-style.css">
+    
+    </head>
+<body>
+    
+    <main class="main-layout-container">
+        <div class="top-content-area">
+            <section class="left-panel">
+
+                <div class="search-section">
+                    <div class="top-buttons">
+                        <button onclick="window.location.href='../index.html'">Back</button>
+                        <button id="addSampleBtn">Add data</button>
+                        <button id="editSampleBtn" disabled>Edit data</button>
+                        <button id="deleteSampleBtn" disabled>Delete data</button>
+                        <button id="pedirAmostraBtn" disabled>Request sample</button>
+
+                    </div>
+                    <h2>Search Sample</h2>
+                    <input type="text" id="searchInput" placeholder="Search for Abbr or Primer...">
+                </div>
+
+                <div class="table-section">
+                    <h2>Seabass Samples</h2>
+                    <div class="table-scroll-container">
+                        <table id="seabassTable">
+                            <thead>
+                                <tr>
+                                    <th>ABBR</th>
+                                    <th>PRIMER</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="right-panel">
+                <h2>Location Boxes</h2>
+                <div id="allBoxesContainer">
+                    </div>
+            </section>
+        </div>
+
+        <div class="bottom-details-area">
+            <section class="primer-details-section">
+                <h3>Primer Details</h3>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <p><span class="detail-label">Abbr:</span> <span id="detail-abbr" class="detail-value">N/A</span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><span class="detail-label">Primer:</span> <span id="detail-primer" class="detail-value">N/A</span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><span class="detail-label">Forward:</span> <span id="detail-forward" class="detail-value">N/A</span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><span class="detail-label">Reverse:</span> <span id="detail-reverse" class="detail-value">N/A</span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><span class="detail-label">Temperature Annealing:</span> <span id="detail-temperature-annealing" class="detail-value">N/A</span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><span class="detail-label">Product Size:</span> <span id="detail-product-size" class="detail-value">N/A</span></p>
+                    </div>
+                    <div class="detail-item">
+                        <p><span class="detail-label">Primers Test:</span> <span id="detail-primers-test" class="detail-value">N/A</span></p>
+                    </div>
+                </div>
+            </section>
+
+            
+
+        </div>
+    </main>
+
+    <script type="module" src="danio-script.js"></script>
+</body>
+</html>

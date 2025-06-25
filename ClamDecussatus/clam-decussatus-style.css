@@ -1,0 +1,662 @@
+/* --- Estilos Gerais: Estes são os estilos "padrão" para telas grandes (desktop) --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 15px; /* Padding no corpo para espaçamento geral */
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* body organiza seus filhos em coluna (header, main-layout-container) */
+    align-items: center;
+    min-height: 100vh; /* Ocupa toda a altura da viewport */
+    font-size: 0.95em;
+    box-sizing: border-box; /* Inclui padding e border na altura/largura total */
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    width: 100%; /* Garante que o header ocupe toda a largura */
+    max-width: 1800px; /* Alinha com o max-width do container */
+    box-sizing: border-box; /* Inclui padding na largura */
+    border-radius: 8px 8px 0 0; /* Arredonda só os cantos superiores */
+    margin-bottom: 15px; /* Espaço entre o header e o container */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+/* --- Container Principal do Layout --- */
+.main-layout-container {
+    display: flex;
+    flex-direction: column; /* Organiza a área superior e a inferior em coluna */
+    width: 100%;
+    max-width: 1800px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    box-sizing: border-box;
+    gap: 25px; /* Espaço entre a área superior e inferior */
+    overflow: visible; /* Permite scroll se o conteúdo for maior que a viewport */
+    flex-grow: 1; /* Permite que o container principal ocupe o espaço restante no body */
+}
+
+/* --- Área de Conteúdo Superior: Tabela e Caixas de Localização (lado a lado) --- */
+.top-content-area {
+    display: flex;
+    flex-direction: row; /* Coloca left-panel e right-panel lado a lado */
+    gap: 25px; /* Espaço entre os painéis esquerdo e direito */
+    align-items: stretch; /* Faz os painéis esticarem para a mesma altura */
+    flex-grow: 1; /* Permite que esta área ocupe o espaço disponível */
+    min-height: 0; /* Permite que os filhos flexíveis se ajustem sem "vazar" */
+}
+
+/* Painel Esquerdo: Busca e Tabela */
+.left-panel {
+    flex: 0.55; /* **AJUSTADO PARA 55%**: Reduz um pouco o espaço para a tabela */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 400px; /* **AJUSTADO**: Reduz o min-width para dar mais flexibilidade */
+}
+
+/* Painel Direito: Múltiplas Caixas */
+.right-panel {
+    flex: 1; /* Ocupa o restante do espaço */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-left: 1px solid #e0e0e0;
+    padding-left: 25px;
+    flex-grow: 1;
+    overflow-y: hidden;
+    min-width: 700px; /* **AJUSTADO**: Garante que as caixas tenham espaço suficiente para não serem cortadas */
+}
+
+.right-panel h2 {
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+    width: 100%;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.top-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.top-buttons button {
+    font-family: Arial, sans-serif;
+    font-weight: 550; /* Deixe só essa */
+    padding: 6px 14px;
+    font-size: 14px;
+    background-color: #8a8a8a; /* Cor de fundo do botão */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+
+.top-buttons button:hover {
+    background-color: #666; /*Cor do botão quando o mouse esta em cima*/
+}
+
+.top-buttons button:disabled {
+    background-color: #c0c0c0;
+    cursor: not-allowed;
+}
+
+
+
+/* --- Seções de Conteúdo (Geral) --- */
+.search-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fafafa;
+    flex-shrink: 0; /* Impede que a seção de busca encolha */
+}
+
+.table-section {
+    flex-grow: 1; /* CRÍTICO: Permite que a seção da tabela ocupe o espaço restante no left-panel */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fafafa;
+    padding: 15px;
+    padding-top: 0;
+}
+
+.table-section h2 {
+    font-size: 1.6em;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    padding-top: 15px;
+    background-color: #fafafa;
+    position: sticky; /* Mantém o título visível ao scrollar a tabela */
+    top: 0;
+    z-index: 2; /* Garante que o título fique acima do cabeçalho da tabela */
+}
+
+/* Container para a tabela em si, COM A BARRA DE ROLAGEM */
+.table-scroll-container {
+    flex-grow: 1; /* Faz este container ocupar todo o espaço disponível dentro da table-section */
+    overflow-y: auto; /* **A barra de rolagem vertical aparece APENAS AQUI** */
+    max-height: 400px; /* Altura máxima da tabela antes de scrollar (valor que funcionava) */
+    padding-right: 5px; /* Espaço para a barra de rolagem */
+}
+
+/* --- Campo de Busca --- */
+#searchInput {
+    width: calc(100% - 20px);
+    max-width: 400px;
+    padding: 8px 12px;
+    border: 1px solid #b2bec3;
+    border-radius: 18px;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+/* --- Tabela de Amostras --- */
+#seabassTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#seabassTable th,
+#seabassTable td {
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 0.85em;
+}
+
+#seabassTable th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+    color: #555;
+    position: sticky; /* Mantém o cabeçalho visível ao scrollar */
+    top: 0;
+    z-index: 1; /* Garante que o cabeçalho fique acima do conteúdo */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Efeito de hover na tabela */
+#seabassTable tbody tr:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Linha selecionada */
+#seabassTable tbody tr.selected-row {
+    background-color: #d1e7dd; /* Cor para a linha selecionada */
+    font-weight: bold;
+    color: #0f5132;
+}
+
+/* --- Área de Conteúdo Inferior: Detalhes do Primer e Head-kidney (lado a lado) --- */
+.bottom-details-area {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+/* Estilos para a seção de Detalhes do Primer */
+.primer-details-section {
+    flex: 1;
+    min-width: 350px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fafafa;
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.primer-details-section h3 {
+    font-size: 1.4em;
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+/* Modifique o .detail-item para usar flexbox e alinhar o conteúdo */
+.detail-item {
+    margin-bottom: 20px; /* Ajusta o espaçamento abaixo de cada item de detalhe */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/* Opcional: Para remover qualquer margem padrão do parágrafo que possa estar atrapalhando */
+.detail-item p {
+    margin: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Garanta que o parágrafo dentro do detail-item não interfira no layout flex */
+.detail-item p {
+    margin: 0; /* Remove a margem padrão do parágrafo */
+    display: flex; /* Garante que os spans dentro do p também se comportem como flex */
+    width: 100%; /* Faz o p ocupar toda a largura disponível */
+    justify-content: space-between; /* Distribui o rótulo e o valor */
+    align-items: center;
+    font-size: 0.9em; /* Ajuste o tamanho da fonte se necessário */
+    color: #666; /* Cor padrão para o texto */
+}
+
+
+/* Reajuste os estilos para os rótulos */
+.detail-label {
+    font-weight: bold; /* Ou use 600, 700, 800 para diferentes níveis de negrito */
+    color: #333333; /* A cor do texto para o rótulo */
+    white-space: nowrap; /* Impede que o texto do rótulo quebre a linha */
+    padding-right: 10px; /* Adiciona um pequeno espaço entre o rótulo e o valor */
+}
+
+/* Opcional: Se precisar de mais controle e houver um estilo que esteja sobrescrevendo */
+.detail-item p .detail-label {
+    font-weight: bold !important; /* Use !important com cautela, apenas se necessário para forçar */
+}
+
+/* Reajuste os estilos para os valores */
+.detail-value {
+    font-weight: bold; /* Já está negrito, mas pode ajustar a intensidade se precisar */
+    color: #333333; /* Cor para o valor (pode ser diferente do rótulo) */
+    text-align: right; /* Garante que o valor se alinhe à direita */
+    word-break: break-all; /* Permite que textos longos quebrem a linha se necessário */
+}
+
+/* --- NOVOS ESTILOS PARA HEAD-KIDNEY E SUAS SUBSEÇÕES --- */
+/* Seção principal de detalhes (Head-kidney) */
+.details-section {
+    flex: 1;
+    min-width: 350px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fafafa;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Container para as subseções (Eppendorf e BIORAD) para que fiquem lado a lado */
+.details-subsection-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as subseções quebrem para a próxima linha */
+    gap: 15px; /* Espaço entre as subseções */
+    flex-grow: 1;
+}
+
+/* Título principal da seção de detalhes (Head-kidney) */
+.details-section h3 {
+    color: #34495e;
+    font-size: 1.4em;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Estilos para as subseções (Eppendorf e BIORAD) */
+.subsection {
+    background-color: #ffffff;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 1 calc(50% - 15px/2); /* Ocupa 50% menos metade do gap, garantindo 2 colunas */
+    min-width: 280px; /* Largura mínima para evitar que fiquem muito apertadas */
+    box-sizing: border-box; /* Garante que padding e border não adicionem largura extra */
+}
+
+/* Títulos das subseções (Eppendorf, BIORAD) */
+.subsection h4 {
+    color: #4a627d;
+    font-size: 1.15em;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 6px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Parágrafos dentro das subseções */
+.subsection p {
+    margin-bottom: 0;
+    font-size: 0.9em;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Para o texto do span de detalhes (o valor) */
+.subsection p span {
+    font-weight: bold;
+    color: #333;
+    text-align: right;
+}
+
+/* --- Container para todas as 4 caixas (duas linhas de duas caixas) --- */
+#allBoxesContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+    flex-grow: 1;
+    padding-top: 5px;
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-bottom: 15px;
+}
+
+/* Cada grupo de caixa (título vertical + caixa 10x10) */
+.box-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+/* Título vertical da caixa */
+.box-title-vertical {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #555;
+    white-space: nowrap;
+    padding-right: 3px;
+    background-color: transparent;
+    border-right: 1px solid #eee;
+}
+
+/* Container individual para cada caixa (rótulos de linha + grid de círculos) */
+.box-container-individual {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3px;
+    padding: 6px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #e2eaf0;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+}
+
+/* Rótulos das linhas (A-J) para cada caixa */
+.row-labels-box {
+    display: grid;
+    grid-template-rows: repeat(10, minmax(23px, 1fr));
+    gap: 3px;
+    padding-right: 3px;
+    align-items: center;
+    justify-items: end;
+    font-weight: bold;
+    color: #555;
+    white-space: nowrap;
+    font-size: 0.75em;
+}
+
+/* Estilo para cada div de legenda de linha */
+.row-label {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Grid de círculos (a caixa 10x10 em si) */
+.location-box-grid {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(23px, 1fr));
+    grid-template-rows: repeat(10, minmax(23px, 1fr));
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+/* Estilo para cada círculo de localização */
+.location-circle {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.55em;
+    font-weight: bold;
+    color: #444;
+    border: 1px solid #ccc;
+    cursor: default;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    user-select: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.location-circle:hover {
+    transform: scale(1.07);
+    border-color: #888;
+}
+
+/* --- Estados Ativos dos Círculos (Cores "bebê") --- */
+/* --- Estados Ativos dos Círculos (Cores do Screenshot) --- */
+.location-circle.active-stock {
+    background-color: #FFC0CB; /* Rosa claro */
+    border: 2px solid #d473a3;
+}
+
+.location-circle.active-diluted {
+    background-color: #FFA07A; /* Laranja salmão */
+    border: 2px solid #c2654f;
+}
+
+.location-circle.active-mixed {
+    background: linear-gradient(45deg, #FFC0CB 50%, #FFA07A 50%);
+    border: 2px solid #999;
+    color: black;
+}
+
+
+
+/* --- Media Queries para design responsivo --- */
+
+/* Telas médias (e.g., tablets em landscape ou notebooks menores) */
+@media (max-width: 1200px) {
+    .main-layout-container {
+        gap: 15px;
+        max-width: 850px;
+        padding: 15px;
+    }
+    .top-content-area {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .left-panel, .right-panel {
+        width: 100%;
+        min-width: unset;
+        padding: 0;
+        border-left: none;
+    }
+    .right-panel {
+        padding-left: 0;
+    }
+    .right-panel h2 {
+        margin-top: 15px;
+    }
+    #allBoxesContainer {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .box-group {
+        min-width: unset;
+        flex-basis: auto;
+    }
+    .location-box-grid {
+        grid-template-columns: repeat(8, minmax(20px, 1fr));
+        grid-template-rows: repeat(10, minmax(20px, 1fr));
+        gap: 2px;
+    }
+    .location-circle {
+        width: 20px;
+        height: 20px;
+        font-size: 0.5em;
+    }
+    .row-labels-box {
+        grid-template-rows: repeat(10, minmax(20px, 1fr));
+        font-size: 0.65em;
+    }
+    .table-scroll-container {
+        max-height: 300px;
+    }
+    .search-section, .table-section, .primer-details-section, .details-section {
+        margin-bottom: 0;
+    }
+    .bottom-details-area {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .primer-details-section, .details-section {
+        min-width: unset;
+    }
+}
+
+/* Telas pequenas (e.g., celulares e tablets em portrait) */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    .main-layout-container {
+        padding: 12px;
+    }
+    #allBoxesContainer {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .box-group {
+        flex-direction: column;
+        text-align: center;
+    }
+    .box-title-vertical {
+        writing-mode: horizontal-tb;
+        transform: none;
+        padding-right: 0;
+        margin-bottom: 8px;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        width: 100%;
+    }
+    .box-container-individual {
+        padding: 6px;
+    }
+    .row-labels-box {
+        padding-bottom: 3px;
+        font-size: 0.6em;
+        justify-items: start;
+    }
+    .location-box-grid {
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(10, minmax(18px, 1fr));
+        gap: 1.5px;
+    }
+    .location-circle {
+        width: 18px;
+        height: 18px;
+        font-size: 0.45em;
+    }
+    .detail-label {
+        text-align: left;
+    }
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    .table-scroll-container {
+        max-height: 250px;
+    }
+}
+
+/* Telas muito pequenas (e.g., celulares antigos) */
+@media (max-width: 480px) {
+    .main-layout-container {
+        padding: 8px;
+    }
+    .box-container-individual {
+        padding: 5px;
+    }
+    .location-box-grid {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(10, minmax(16px, 1fr));
+        gap: 1px;
+    }
+    .location-circle {
+        width: 16px;
+        height: 16px;
+        font-size: 0.4em;
+    }
+
+    
+}
+
+.back-button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 16px;
+    margin-bottom: 0px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+    background-color: #ddd;
+}

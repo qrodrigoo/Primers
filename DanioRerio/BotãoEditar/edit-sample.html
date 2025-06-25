@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Data</title>
+    <link rel="stylesheet" href="edit-sample-style.css">
+</head>
+<body>
+    <main>
+        <h2>Edit Data</h2>
+
+        <form id="addSampleForm">
+            <div class="form-grid">
+                <div class="form-item">
+                    <label for="abbr">Abbr</label>
+                    <input type="text" id="abbr" name="abbr" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="primer">Primer</label>
+                    <input type="text" id="primer" name="primer">
+                </div>
+
+                <div class="form-item">
+                    <label for="box">Box</label>
+                    <input type="number" id="box" name="box" min="1" max="4" required placeholder="Número da caixa">
+                </div>
+
+                <div class="form-item">
+                    <label for="box-location">Position Box</label>
+                    <input type="text" id="box-location" name="box.location" placeholder="Ex: A1, B5..." required>
+                </div>
+
+
+                <div class="form-item">
+                    <label for="forward">Forward</label>
+                    <input type="text" id="forward" name="forward">
+                </div>
+
+                <div class="form-item">
+                    <label for="reverse">Reverse</label>
+                    <input type="text" id="reverse" name="reverse">
+                </div>
+
+                <div class="form-item">
+                    <label for="temperature_annealing">Temperature Annealing</label>
+                    <input type="text" id="temperature_annealing" name="temperature_annealing">
+                </div>
+
+                <div class="form-item">
+                    <label for="product_size">Product Size</label>
+                    <input type="text" id="product_size" name="product_size">
+                </div>
+
+                <div class="form-item">
+                    <label for="primers_test">Primers Test</label>
+                    <input type="text" id="primers_test" name="primers_test">
+                </div>
+            </div>
+
+            <div id="extraSectionsContainer"></div>
+
+            <div class="button-row">
+                <button type="submit" id="saveBtn">Save Changes</button>
+                <button type="button" onclick="window.location.href='../danio-index.html'">Back</button>
+            </div>
+        </form>
+    </main>
+
+    <script type="module" src="script-edit-sample.js"></script>
+</body>
+</html>
