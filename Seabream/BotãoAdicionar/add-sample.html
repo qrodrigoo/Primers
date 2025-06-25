@@ -70,6 +70,7 @@
                 <!-- Head-Kidney Bloco Agrupado -->
                 <div class="section section-grouped">
                     <h4>Head-Kidney</h4>
+
                     <div class="subsection">
                         <h5>Eppenforf Real-time</h5>
                         <div class="form-grid">
@@ -92,7 +93,22 @@
                 </div>
 
                 <div class="section section-grouped">
+
+                    <h4>Intestine</h4>
+                        <div class="subsection">
+                            <h5>Biorad CFX384</h5>
+                            <div class="form-grid">
+                                <div class="form-item"><label>Slope</label><input type="text" name="intestine.biorad-cfx384.slope"></div>
+                                <div class="form-item"><label>Efficiency</label><input type="text" name="intestine.biorad-cfx384.efficiency"></div>
+                                <div class="form-item"><label>Efficiency (%)</label><input type="text" name="intestine.biorad-cfx384.efficiency(%)"></div>
+                                <div class="form-item"><label>Observations</label><input type="text" name="biorad.observations"></div>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="section section-grouped">
                     <h4>Liver</h4>
+
                     <div class="subsection">
                         <h5>Eppenforf Real-time</h5>
                         <div class="form-grid">
@@ -101,21 +117,8 @@
                             <div class="form-item"><label>Efficiency (%)</label><input type="text" name="liver.eppenforf-real-time.efficiency(%)"></div>
                             <div class="form-item"><label>Observations</label><input type="text" name="liver.eppenforf-real-time.observations"></div>
                         </div>
-                    </div>
                 </div>
 
-                <div class="section section-grouped">
-                    <h4>Intestine</h4>
-                    <div class="subsection">
-                        <h5>Biorad CFX384</h5>
-                        <div class="form-grid">
-                            <div class="form-item"><label>Slope</label><input type="text" name="intestine.biorad-cfx384.slope"></div>
-                            <div class="form-item"><label>Efficiency</label><input type="text" name="intestine.biorad-cfx384.efficiency"></div>
-                            <div class="form-item"><label>Efficiency (%)</label><input type="text" name="intestine.biorad-cfx384.efficiency(%)"></div>
-                            <div class="form-item"><label>Observations</label><input type="text" name="intestine.biorad.observations"></div>
-                        </div>
-                    </div>
-                </div>
             </div> <!-- Fecha sections-container -->
 
 
@@ -123,7 +126,7 @@
 
             <div class="button-row">
                 <button type="submit">Save Sample</button>
-                <button type="button" onclick="window.location.href='../seabream-index.html'">Voltar</button>
+                <button type="button" onclick="window.location.href='../seabream-index.html'">Back</button>
             </div>
         </form>
     </main>

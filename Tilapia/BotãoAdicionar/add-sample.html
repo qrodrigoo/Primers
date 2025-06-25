@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Sample</title>
+    <link rel="stylesheet" href="add-sample-style.css">
+</head>
+<body>
+    <main>
+        <h2>Add New Sample</h2>
+
+        <form id="addSampleForm">
+            <div class="form-grid">
+                <div class="form-item">
+                    <label for="symbol">Symbol</label>
+                    <input type="text" id="symbol" name="symbol" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="primer">Gene Name</label>
+                    <input type="text" id="primer" name="gene_name"> </div>
+
+                <div class="form-item">
+                    <label for="detail-gene-group">Gene group</label>
+                    <input type="text" id="detail-gene-group" name="gene_group">
+                </div>
+
+                <div class="form-item">
+                    <label for="detail-acession-number">Gene bank</label>
+                    <input type="text" id="detail-acession-number" name="gene_bank">
+                </div>
+
+                <div class="form-item">
+                    <label for="box">Box</label>
+                    <input type="number" id="box" name="box" min="1" max="4" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="box-location">Position Box</label>
+                    <input type="text" id="box-location" name="box.location" placeholder="Ex: A1, B5..." required>
+                </div>
+
+                <div class="form-item">
+                    <label for="forward">Forward</label>
+                    <input type="text" id="forward" name="forward">
+                </div>
+
+                <div class="form-item">
+                    <label for="reverse">Reverse</label>
+                    <input type="text" id="reverse" name="reverse">
+                </div>
+
+                <div class="form-item">
+                    <label for="detail-product-size">Product length</label>
+                    <input type="text" id="detail-product-size" name="product_length">
+                </div>
+            </div>
+
+            <h3>Data Sections</h3>
+
+            <div class="sections-container">
+
+                <div class="section">
+                    <h4>RT-PCR (BIORAD - 386)</h4>
+                    <div class="form-grid">
+                        <div class="form-item">
+                            <label for="biorad-slope">Slope</label>
+                            <input type="text" id="biorad-slope" name="biorad_386.slope">
+                        </div>
+                        <div class="form-item">
+                            <label for="biorad-efficiency">Efficiency</label>
+                            <input type="text" id="biorad-efficiency" name="biorad_386.efficiency">
+                        </div>
+                        <div class="form-item">
+                            <label for="biorad-efficiency-percent">Efficiency (%)</label>
+                            <input type="text" id="biorad-efficiency-percent" name="biorad_386.efficiency.porcentagem">
+                        </div>
+                        <div class="form-item">
+                            <label for="detail-temperature-annealing">Temperature Annealing</label>
+                            <input type="text" id="detail-temperature-annealing" name="biorad_386.annealing_temperature">
+                        </div>
+                        <div class="form-item">
+                            <label for="biorad-observations">Observations</label>
+                            <input type="text" id="biorad-observations" name="rt_obervations">
+                        </div>
+                    </div>
+                </div>
+
+            </div> <div id="extraSectionsContainer"></div>
+
+            <div class="button-row">
+                <button type="submit">Save Sample</button>
+                <button type="button" onclick="window.location.href='../tilapia-index.html'">Back</button>
+            </div>
+        </form>
+    </main>
+
+    <script type="module" src="script-add-sample.js"></script>
+</body>
+</html>

@@ -77,6 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (btnLVShrimp) {
+        btnLVShrimp.addEventListener('click', () => {
+            console.log('Botão "LVShrimp" clicado!');
+            // Futuramente: Redirecionar para a página de Sole
+            window.location.href = './LVShrimp/lvshrimp-index.html'; // Redireciona para a nova página
+
+        });
+    }
+
     if (btnsample) {
         btnsample.addEventListener('click', () => {
             console.log('Botão "Ask for Sample" clicado! Redirecionando para a página de detalhes...');

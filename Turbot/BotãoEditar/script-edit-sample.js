@@ -94,5 +94,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Atualiza o texto do botão
   const saveBtn = document.getElementById('saveBtn');
-  if (saveBtn) saveBtn.textContent = 'Salvar Edição';
+  if (saveBtn) saveBtn.textContent = 'Save Changes';
 });

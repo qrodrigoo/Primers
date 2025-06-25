@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 960px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.section-group {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+
+button {
+    font-family: Arial, sans-serif;
+    font-weight: 500;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #8a8a8a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 8px;
+}
+
+button:hover {
+    background-color: #6c6c6c;
+}
+
+form {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-family: Arial, sans-serif;
+}
+
+input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+.button-row {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+}
+
+.section {
+    padding: 16px 0;
+    border-top: 1px solid #ccc;
+    margin-top: 16px;
+}
+
+.section:first-of-type {
+    border-top: none;
+    margin-top: 0;
+}
+
+.section-grouped {
+    border: 1px solid #bbb;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.section-grouped h4 {
+    margin-top: 0;
+}
+
+.subsection {
+    margin-top: 12px;
+}
+
+.subsection h5 {
+    font-size: 15px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.custom-section hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.section-header h4 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.remove-section-btn {
+    background-color: #c62828;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.remove-section-btn:hover {
+    background-color: #a00000;
+}

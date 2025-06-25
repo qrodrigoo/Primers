@@ -18,20 +18,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   copiarBtn.addEventListener('click', () => {
     const linhas = Array.from(tableBody.querySelectorAll('tr')).map(tr => {
-      return Array.from(tr.querySelectorAll('td'))
-        .map(td => td.textContent.trim())
-        .join('\t');
-    });
+    const tds = Array.from(tr.querySelectorAll('td'));
+    const tdsSemBotao = tds.slice(0, -1); // ignora o último <td> (o botão)
+
+    return tdsSemBotao.map(td => td.textContent.trim()).join('\t');
+  });
+
 
     const textoFinal = linhas.join('\n');
 
     navigator.clipboard.writeText(textoFinal)
       .then(() => {
-        statusDiv.textContent = '✅ Dados copiados! Agora é só colar na planilha.';
+        statusDiv.textContent = '✅ Data copied! Now just paste it into the spreadsheet.';
         setTimeout(() => statusDiv.textContent = '', 4000);
       })
       .catch(() => {
-        statusDiv.textContent = '❌ Falha ao copiar os dados.';
+        statusDiv.textContent = '❌ Failed to copy data.';
         setTimeout(() => statusDiv.textContent = '', 4000);
       });
   });

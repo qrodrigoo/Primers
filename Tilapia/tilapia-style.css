@@ -178,6 +178,7 @@ header h1 {
 }
 
 /* --- Tabela de Amostras --- */
+/* --- Tabela de Amostras --- */
 #seabassTable {
     width: 100%;
     border-collapse: collapse;
@@ -195,25 +196,24 @@ header h1 {
     background-color: #f8f8f8;
     font-weight: bold;
     color: #555;
-    position: sticky; /* Mantém o cabeçalho visível ao scrollar */
+    position: sticky;
     top: 0;
-    z-index: 1; /* Garante que o cabeçalho fique acima do conteúdo */
+    z-index: 1;
     box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Efeito de hover na tabela */
 #seabassTable tbody tr:hover {
     background-color: #f0f0f0;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-/* Linha selecionada */
 #seabassTable tbody tr.selected-row {
-    background-color: #d1e7dd; /* Cor para a linha selecionada */
+    background-color: #d1e7dd;
     font-weight: bold;
     color: #0f5132;
 }
+
 
 /* --- Área de Conteúdo Inferior: Detalhes do Primer e Head-kidney (lado a lado) --- */
 .bottom-details-area {

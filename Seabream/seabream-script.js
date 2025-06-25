@@ -54,7 +54,7 @@ function initializeLocationBoxes() {
     allBoxesContainer.innerHTML = ''; // Limpa qualquer caixa existente
     const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
-    for (let boxNum = 0; boxNum <= 0; boxNum++) {
+    for (let boxNum = 1; boxNum <= 4; boxNum++) {
         const boxGroup = document.createElement('div');
         boxGroup.classList.add('box-group');
 
@@ -110,7 +110,7 @@ async function fetchBoxLocations() {
             return {}; 
         }
 
-        console.log("fetchBoxLocations: Dados brutos de Seabream_BOX recebidos:", data);
+        console.log("fetchBoxLocations: Dados brutos de Seabass_BOX recebidos:", data);
 
         const mappedLocations = {};
         data.forEach(item => {
@@ -243,7 +243,7 @@ async function fetchSeabassData() {
                 "intestine.biorad-cfx384.slope",
                 "intestine.biorad-cfx384.efficiency",
                 "intestine.biorad-cfx384.efficiency(%)",
-                "intestinebiorad-cfx384.observations"
+                "biorad.observations"
             `);
 
         if (error) {
@@ -304,15 +304,15 @@ function displayDetails(primerData) {
         'biorad-slope': 'head-hidney.biorad-real-time.slope',
         'biorad-efficiency': 'head-hidney.biorad-real-time.efficiency',
         'biorad-efficiency-percent': 'head-hidney.biorad-real-time.efficiency(%)',
-        'biorad-observations': 'head-hidney.biorad-real-time.observations',
+        'biorad-observattions': 'head-hidney.biorad-real-time.observations',
 
-        // Liver
+        // liver
         'liver-slope': 'liver.eppenforf-real-time.slope',
         'liver-efficiency': 'liver.eppenforf-real-time.efficiency',
         'liver-efficiency-percent': 'liver.eppenforf-real-time.efficiency(%)',
         'liver-observations': 'liver.eppenforf-real-time.observations',
 
-        // Intestine
+        // intestine
         'intestine-slope': 'intestine.biorad-cfx384.slope',
         'intestine-efficiency': 'intestine.biorad-cfx384.efficiency',
         'intestine-efficiency-percent': 'intestine.biorad-cfx384.efficiency(%)',
@@ -337,7 +337,7 @@ function displayDetails(primerData) {
 
 // --- Event Listeners ---
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log("DOMContentLoaded: Página Seabass carregada. Iniciando setup...");
+    console.log("DOMContentLoaded: Página Seabream carregada. Iniciando setup...");
 
     const isConnected = await testSupabaseConnection(); 
     if (!isConnected) {
@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayDetails(null);
     }
 
-    console.log("DOMContentLoaded: Página Seabream inicializada.");
+    console.log("DOMContentLoaded: Página Seabass inicializada.");
 
     document.getElementById('deleteSampleBtn').addEventListener('click', async () => {
     if (selectedRowIndex === -1 || !filteredSamples[selectedRowIndex]) {
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (errorSeabass || errorBox) {
         alert("Erro ao excluir a amostra.");
         console.error("Erro ao excluir da Seabream:", errorSeabass);
-        console.error("Erro ao excluir da Seabream_BOX:", errorBox);
+        console.error("Erro ao excluir da SeabasSeabream_BOX:", errorBox);
         return;
     }
 

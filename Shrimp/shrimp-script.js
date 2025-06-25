@@ -54,7 +54,7 @@ function initializeLocationBoxes() {
     allBoxesContainer.innerHTML = ''; // Limpa qualquer caixa existente
     const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
-    for (let boxNum = 1; boxNum <= 1; boxNum++) {
+    for (let boxNum = 1; boxNum <= 4; boxNum++) {
         const boxGroup = document.createElement('div');
         boxGroup.classList.add('box-group');
 

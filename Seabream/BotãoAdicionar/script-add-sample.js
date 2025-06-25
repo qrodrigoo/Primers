@@ -77,7 +77,7 @@ form.addEventListener('submit', async (event) => {
         alert(sampleToEdit ? 'Amostra editada com sucesso!' : 'Amostra adicionada com sucesso!');
         form.reset();
         dynamicSectionsContainer.innerHTML = '';
-        window.location.href = '../Seabream-index.html';
+        window.location.href = '../seabream-index.html';
     }
 });
 
