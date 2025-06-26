@@ -11,6 +11,18 @@ body {
     line-height: 1.6;
 }
 
+.logo-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.logo-ciimar {
+  max-width: 100%;
+  width: 500px; /* ou o tamanho que desejar */
+  height: auto;
+}
+
+
 h1 {
     color: #004d99; /* Azul escuro mais elegante */
     margin-bottom: 40px;
@@ -23,6 +35,33 @@ h1 {
     gap: 25px; /* Mais espaço entre os botões */
     flex-wrap: wrap; /* Quebra linha se a tela for pequena */
     justify-content: center;
+}
+
+
+
+.sample-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+/* Botão em si */
+.sample-btn-container button#btnsample {
+  background-color: #002fff !important;
+  color: white;
+  font-weight: bold;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 94, 255, 0.5);
+  transition: all 0.2s ease;
+}
+
+
+.sample-btn-container button#btnsample:hover {
+  background-color: #008cff !important;
+  cursor: pointer;
 }
 
 button {

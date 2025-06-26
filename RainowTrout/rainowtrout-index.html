@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RainowTrout</title>
+    <title>RainbowTrout</title>
     <link rel="stylesheet" href="rainowtrout-style.css">
     
     </head>
@@ -12,27 +12,27 @@
     <main class="main-layout-container">
         <div class="top-content-area">
             <section class="left-panel">
-
+ 
                 <div class="search-section">
                     <div class="top-buttons">
                         <button onclick="window.location.href='../index.html'">Back</button>
-                        <button id="addSampleBtn">Add data</button>
-                        <button id="editSampleBtn" disabled>Edit data</button>
-                        <button id="deleteSampleBtn" disabled>Delete data</button>
-                        <button id="pedirAmostraBtn" disabled>Request sample</button>
+                        <button id="addSampleBtn">Add New Primer</button>
+                        <button id="editSampleBtn" disabled>Edit Primer</button>
+                        <button id="deleteSampleBtn" disabled>Delete Primer</button>
+                        <button id="pedirAmostraBtn" disabled>Request Primer</button>
 
                     </div>
-                    <h2>Search Sample</h2>
-                    <input type="text" id="searchInput" placeholder="Search for Abbr or Primer...">
+                    <h2>Search Primer</h2>
+                    <input type="text" id="searchInput" placeholder="Search for Abreviation, Primer, Forward or Reverse...">
                 </div>
 
                 <div class="table-section">
-                    <h2>RainowTrout Samples</h2>
+                    <h2>RainbowTrout Samples</h2>
                     <div class="table-scroll-container">
                         <table id="seabassTable">
                             <thead>
                                 <tr>
-                                    <th>ABBR</th>
+                                    <th>ABREVIATION</th>
                                     <th>PRIMER</th>
                                     </tr>
                             </thead>
@@ -44,10 +44,28 @@
             </section>
 
             <section class="right-panel">
-                <h2>Location Boxes</h2>
-                <div id="allBoxesContainer">
+                <div class="location-boxes-header">
+                    <h2>Location Boxes</h2>
+
+                    <div class="legend-boxes">
+                        <div class="legend-item">
+                        <div class="legend-circle stock"></div>
+                        <span>Stock</span>
+                        </div>
+                        <div class="legend-item">
+                        <div class="legend-circle diluted"></div>
+                        <span>Diluted</span>
+                        </div>
                     </div>
+
+                    <button id="editBoxCountBtn">Edit Number of Boxes</button>
+                </div>
+
+
+                <div id="allBoxesContainer">
+                </div>
             </section>
+
         </div>
 
         <div class="bottom-details-area">
@@ -55,7 +73,7 @@
                 <h3>Primer Details</h3>
                 <div class="details-grid">
                     <div class="detail-item">
-                        <p><span class="detail-label">Abbr:</span> <span id="detail-abbr" class="detail-value">N/A</span></p>
+                        <p><span class="detail-label">Abreviation:</span> <span id="detail-abbr" class="detail-value">N/A</span></p>
                     </div>
                     <div class="detail-item">
                         <p><span class="detail-label">Primer:</span> <span id="detail-primer" class="detail-value">N/A</span></p>
@@ -70,7 +88,7 @@
                         <p><span class="detail-label">Temperature Annealing:</span> <span id="detail-temperature-annealing" class="detail-value">N/A</span></p>
                     </div>
                     <div class="detail-item">
-                        <p><span class="detail-label">Acession Number:</span> <span id="detail-acession-number" class="detail-value">N/A</span></p>
+                        <p><span class="detail-label">Accession Number:</span> <span id="detail-acession-number" class="detail-value">N/A</span></p>
                     </div>
                     <div class="detail-item">
                         <p><span class="detail-label">Product Size:</span> <span id="detail-product-size" class="detail-value">N/A</span></p>
@@ -192,6 +210,18 @@
             </section>
         </div>
     </main>
+
+    <!-- MODAL para editar número de caixas -->
+    <div id="boxModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Edit number of boxes</h3>
+            <input type="number" id="boxCountInput" min="1" />
+            <div class="modal-buttons">
+            <button id="cancelBoxCountBtn">Cancel</button>
+            <button id="saveBoxCountBtn">Save</button>
+        </div>
+    </div>
+
 
     <script type="module" src="rainowtrout-script.js"></script>
 </body>

@@ -8,7 +8,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // Agora, 'createClient' é uma função importada, não uma variável global 'Supabase'
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+ 
 // Variáveis globais para armazenar os dados e o estado da UI
 let allSalmonSamples = [];
 // allBoxLocations AGORA armazenará um ARRAY de locais para cada abbr
@@ -52,15 +52,14 @@ function initializeLocationBoxes() {
     console.log("initializeLocationBoxes: Iniciando a criação das caixas de localização.");
     allBoxesContainer.innerHTML = ''; // Limpa qualquer caixa existente
     const rowLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-    const numberOfBoxes = 4; // Apenas 2 caixas agora
 
-    for (let boxNum = 1; boxNum <= numberOfBoxes; boxNum++) {
+    for (let boxNum = 1; boxNum <= boxCount; boxNum++) {
         const boxGroup = document.createElement('div');
         boxGroup.classList.add('box-group');
 
         const boxTitleVertical = document.createElement('div');
         boxTitleVertical.classList.add('box-title-vertical');
-        boxTitleVertical.textContent = `Caixa ${boxNum}`;
+        boxTitleVertical.textContent = `Box ${boxNum}`;
         boxGroup.appendChild(boxTitleVertical);
 
         const boxContainerIndividual = document.createElement('div');
@@ -95,7 +94,7 @@ function initializeLocationBoxes() {
         boxGroup.appendChild(boxContainerIndividual);
         allBoxesContainer.appendChild(boxGroup);
     }
-    console.log(`initializeLocationBoxes: ${numberOfBoxes} caixas de localização criadas no DOM.`);
+    console.log(`initializeLocationBoxes: ${boxCount} caixas de localização criadas no DOM.`);
 }
 
 async function fetchBoxLocations() {
@@ -309,6 +308,7 @@ function displayDetails(primerData) {
 
     console.log("displayDetails: Detalhes para '" + (primerData ? primerData.abbr : 'undefined') + "' atualizados.");
 }
+let boxCount = 1; // valor inicial, será sobrescrito por fetchBoxCount()
 
 
 
@@ -321,6 +321,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Não foi possível conectar ao Supabase.");
         return;
     }
+    boxCount = await fetchBoxCount(); // <- salvando valor globalmente
 
     initializeLocationBoxes();
     await fetchBoxLocations();
@@ -335,7 +336,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const searchTerm = searchInput.value.toLowerCase();
         filteredSamples = allSalmonSamples.filter(sample =>
             (sample.abbr && sample.abbr.toLowerCase().includes(searchTerm)) ||
-            (sample.primer && sample.primer.toLowerCase().includes(searchTerm))
+            (sample.primer && sample.primer.toLowerCase().includes(searchTerm)) ||
+            (sample.forward && sample.forward.toLowerCase().includes(searchTerm)) ||
+            (sample.reverse && sample.reverse.toLowerCase().includes(searchTerm))
         );
         populateTable(filteredSamples);
 
@@ -510,3 +513,70 @@ document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
     // Redireciona para a página de pedido
     window.location.href = '../PedirAmostra/solicitar.html';
 });
+
+const boxModal = document.getElementById('boxModal');
+const boxInput = document.getElementById('boxCountInput');
+const saveBoxBtn = document.getElementById('saveBoxCountBtn');
+const cancelBoxBtn = document.getElementById('cancelBoxCountBtn');
+
+document.getElementById('editBoxCountBtn').addEventListener('click', async () => {
+  // Busca o valor atual do número de caixas no Supabase
+  const { data, error } = await supabase
+    .from('config')
+    .select('num_boxes')
+    .eq('page', 'Salmon') // ajuste o nome da página conforme sua base
+    .single();
+
+  if (error) {
+    alert("Error fetching configuration.");
+    return;
+  }
+
+  boxInput.value = data?.num_boxes || 4;
+  boxModal.classList.remove('hidden'); // Mostra o modal
+});
+
+saveBoxBtn.addEventListener('click', async () => {
+  const newCount = parseInt(boxInput.value);
+  if (isNaN(newCount) || newCount < 1) {
+    alert("Please enter a valid number of boxes.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from('config')
+    .update({ num_boxes: newCount })
+    .eq('page', 'Salmon');
+
+  if (error) {
+    alert("Error saving number of boxes.");
+    return;
+  }
+
+  boxModal.classList.add('hidden');
+  window.location.reload(); // Recarrega para aplicar as novas caixas
+});
+
+cancelBoxBtn.addEventListener('click', () => {
+  boxModal.classList.add('hidden'); // Fecha o modal sem salvar
+});
+
+async function fetchBoxCount() {
+  try {
+    const { data, error } = await supabase
+      .from('config')
+      .select('num_boxes')
+      .eq('page', 'Salmon') // nome da página
+      .single();
+
+    if (error || !data || !data.num_boxes || data.num_boxes < 1) {
+      console.warn("Error fetching number of boxes, using 1 by default");
+      return 1; // valor mínimo
+    }
+
+    return data.num_boxes;
+  } catch (err) {
+    console.error("Unexpected error while fetching number of boxes:", err);
+    return 1;
+  }
+}
