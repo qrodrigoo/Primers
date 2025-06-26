@@ -1,3 +1,4 @@
+/* Fundo com gradiente oceânico e animação de raios solares */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
@@ -6,25 +7,88 @@ body {
     justify-content: center;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(to right, #ece9e6, #ffffff); /* Degradê suave */
+    background: linear-gradient(to bottom, #ffffff 0%, #a8eafc 50%, #87cefa 100%);
+    overflow: hidden;
     color: #333;
     line-height: 1.6;
+    position: relative;
 }
 
+/* Animação de raios de sol */
+.sun-rays {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%), radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+    background-size: 200% 200%;
+    animation: rays 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes rays {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Peixinhos com formato realista (silhueta e animação de nadar) */
+.fish {
+    position: absolute;
+    width: 60px; /* Tamanho ajustado para a silhueta */
+    height: 30px; /* Tamanho ajustado para a silhueta */
+    background: rgba(0, 31, 102, 0.4); /* Cor da silhueta */
+    opacity: 0.5; /* Transparência para parecer sombra */
+
+    /* USANDO A IMAGEM DE SILHUETA */
+    /* Garanta que 'transferir.png' esteja na mesma pasta que o seu CSS */
+    -webkit-mask-image: url('transferir.png');
+    mask-image: url('transferir.png');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+
+    border-radius: 0;
+    clip-path: none;
+
+    /* Animação de nadar mais suave, sem o "bob" adicional */
+    animation: fishSwim 40s linear infinite;
+}
+
+/* Animação de nado dos peixes (esquerda para direita e vice-versa) */
+@keyframes fishSwim {
+    0% {
+        transform: translateX(-100px) scaleX(1); /* Começa à esquerda, virado para a direita */
+    }
+    49.9% {
+        transform: translateX(110vw) scaleX(1); /* Nada até a direita, ainda virado para a direita */
+    }
+    50% {
+        transform: translateX(110vw) scaleX(-1); /* Vira o peixe instantaneamente para a esquerda */
+    }
+    100% {
+        transform: translateX(-100px) scaleX(-1); /* Nada de volta para a esquerda, virado para a esquerda */
+    }
+}
+
+
 .logo-container {
-  text-align: center;
-  margin: 20px 0;
+    text-align: center;
+    margin: 20px 0;
 }
 
 .logo-ciimar {
-  max-width: 100%;
-  width: 500px; /* ou o tamanho que desejar */
-  height: auto;
+    max-width: 100%;
+    width: 500px;
+    height: auto;
 }
 
-
 h1 {
-    color: #004d99; /* Azul escuro mais elegante */
+    color: #001f66;
     margin-bottom: 40px;
     font-size: 2.5em;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
@@ -32,60 +96,82 @@ h1 {
 
 .botoes-container {
     display: flex;
-    gap: 25px; /* Mais espaço entre os botões */
-    flex-wrap: wrap; /* Quebra linha se a tela for pequena */
+    gap: 25px;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
-
-
 .sample-btn-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
 }
 
-/* Botão em si */
-.sample-btn-container button#btnsample {
-  background-color: #002fff !important;
-  color: white;
-  font-weight: bold;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 94, 255, 0.5);
-  transition: all 0.2s ease;
-}
-
-
-.sample-btn-container button#btnsample:hover {
-  background-color: #008cff !important;
-  cursor: pointer;
-}
-
+/* Botões com animação de ondas internas (gerais) */
 button {
-    padding: 18px 35px; /* Aumenta o padding */
-    font-size: 1.3em; /* Aumenta o tamanho da fonte */
+    position: relative;
+    overflow: hidden;
+    padding: 18px 35px;
+    font-size: 1.3em;
     font-weight: bold;
     color: white;
-    background-color: #007bff; /* Azul vibrante */
+    background-color: #2385b7;
     border: none;
-    border-radius: 10px; /* Bordas mais arredondadas */
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
-    min-width: 150px; /* Garante largura mínima para todos */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300%;
+    height: 100%;
+    background: linear-gradient(120deg, #a8eafc, #ffffff, #00c8ff);
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: oceanWave 3s linear infinite;
+    pointer-events: none;
 }
 
 button:hover {
-    background-color: #0056b3; /* Azul mais escuro no hover */
-    transform: translateY(-5px); /* Efeito "levitar" */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Sombra maior no hover */
+    background-color: #001f66;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+button:hover::before {
+    opacity: 0.6;
 }
 
 button:active {
-    background-color: #004085; /* Azul ainda mais escuro no clique */
-    transform: translateY(0); /* Retorna à posição original */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra menor no clique */
+    background-color: #003366;
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+
+@keyframes oceanWave {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Destaque para o botão "Primer Requests" (ID: btnsample) */
+#btnsample {
+    background-color: #001a33; /* Cor azul mais escura para destaque */
+    color: white; /* Texto branco para contraste */
+    font-size: 1.3em; /* Tamanho normal dos outros, ou ligeiramente maior se quiser */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra um pouco mais pronunciada */
+    border: none; /* Sem borda, ou adicione se preferir */
+    animation: none; /* Removida qualquer animação de pulso */
+}
+
+
+
+/* Removida a animação @keyframes pulseScale, pois não será usada */
