@@ -34,45 +34,54 @@ body {
 }
 
 /* Peixinhos com formato realista (silhueta e animação de nadar) */
+/* --- ESTILO BASE DOS PEIXES --- */
 .fish {
-    position: absolute;
-    width: 60px; /* Tamanho ajustado para a silhueta */
-    height: 30px; /* Tamanho ajustado para a silhueta */
-    background: rgba(0, 31, 102, 0.4); /* Cor da silhueta */
-    opacity: 0.5; /* Transparência para parecer sombra */
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  background: rgba(0, 31, 102, 0.4);
+  opacity: 0.5;
 
-    /* USANDO A IMAGEM DE SILHUETA */
-    /* Garanta que 'transferir.png' esteja na mesma pasta que o seu CSS */
-    -webkit-mask-image: url('transferir.png');
-    mask-image: url('transferir.png');
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
+  -webkit-mask-image: url('assets/peixe.png');
+  mask-image: url('assets/peixe.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 
-    border-radius: 0;
-    clip-path: none;
-
-    /* Animação de nadar mais suave, sem o "bob" adicional */
-    animation: fishSwim 40s linear infinite;
+  top: 0;
 }
 
-/* Animação de nado dos peixes (esquerda para direita e vice-versa) */
-@keyframes fishSwim {
-    0% {
-        transform: translateX(-100px) scaleX(1); /* Começa à esquerda, virado para a direita */
-    }
-    49.9% {
-        transform: translateX(110vw) scaleX(1); /* Nada até a direita, ainda virado para a direita */
-    }
-    50% {
-        transform: translateX(110vw) scaleX(-1); /* Vira o peixe instantaneamente para a esquerda */
-    }
-    100% {
-        transform: translateX(-100px) scaleX(-1); /* Nada de volta para a esquerda, virado para a esquerda */
-    }
+/* PEIXE INDO DA ESQUERDA PARA A DIREITA */
+.fish-right {
+  animation: fishSwimRight 28s linear infinite;
+  transform: scaleX(1); /* Virado para a direita */
+}
+
+/* PEIXE INDO DA DIREITA PARA A ESQUERDA */
+.fish-left {
+  animation: fishSwimLeft 28s linear infinite;
+  transform: scaleX(-1); /* Virado para a esquerda */
+}
+
+@keyframes fishSwimRight {
+  0% {
+    left: -80px;
+  }
+  100% {
+    left: 100vw;
+  }
+}
+
+@keyframes fishSwimLeft {
+  0% {
+    left: 100vw;
+  }
+  100% {
+    left: -80px;
+  }
 }
 
 
