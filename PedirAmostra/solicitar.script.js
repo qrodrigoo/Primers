@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const sampleData = localStorage.getItem('sampleToRequest');
   if (sampleData) {
     try {
-      const { abbr, primer } = JSON.parse(sampleData);
-      abbrInput.value = abbr || '';
-      primerInput.value = primer || '';
+      const { abbr, primer, symbol, gene_name } = JSON.parse(sampleData);
+      abbrInput.value = abbr || symbol || '';
+      primerInput.value = primer || gene_name || '';
     } catch (error) {
       console.error('Erro ao carregar dados da amostra:', error);
     }
@@ -93,11 +93,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (!res.ok) throw new Error(await res.text());
 
-      alert('✅ Pedido enviado com sucesso!');
+      alert('✅ Request sent successfully!');
       window.location.href = '../PedidosAmostra/pedido.html';
     } catch (err) {
-      console.error('❌ Erro ao enviar pedido:', err);
-      alert('❌ Erro ao enviar pedido.');
+      console.error('❌ Error sending request:', err);
+      alert('❌ Error sending request.');
     }
   });
 });

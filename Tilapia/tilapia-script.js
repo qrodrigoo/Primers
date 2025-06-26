@@ -463,6 +463,7 @@ document.getElementById('editSampleBtn').addEventListener('click', () => {
     window.location.href = './BotãoEditar/edit-sample.html';
 });
 
+
 // Botão Pedir Amostra 
 document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
     if (selectedRowIndex === -1 || !filteredSamples[selectedRowIndex]) {
@@ -495,6 +496,8 @@ document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
 
     window.location.href = '../PedirAmostra/solicitar.html';
 });
+
+// BOTAO NUMERO DE CAIXAS
 
 const boxModal = document.getElementById('boxModal');
 const boxInput = document.getElementById('boxCountInput');

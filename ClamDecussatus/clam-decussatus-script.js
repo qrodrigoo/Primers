@@ -341,12 +341,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const clickedRow = event.target.closest('tr');
         if (!clickedRow) return;
 
-        if (selectedRowIndex !== -1) {
-            const prev = seabassTableBody.querySelector(`tr[data-index="${selectedRowIndex}"]`);
-            if (prev) prev.classList.remove('selected-row');
-        }
+        // Remove todas as seleções anteriores
+        seabassTableBody.querySelectorAll('tr').forEach(row => {
+            row.classList.remove('selected-row');
+        });
 
+        // Marca a linha clicada
         clickedRow.classList.add('selected-row');
+
         const abbrClicked = clickedRow.cells[0].textContent.trim();
         const selectedSample = filteredSamples.find(sample => sample.abbr === abbrClicked);
         selectedRowIndex = filteredSamples.findIndex(sample => sample.abbr === abbrClicked);
@@ -356,7 +358,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('editSampleBtn').disabled = false;
             document.getElementById('deleteSampleBtn').disabled = false;
             document.getElementById('pedirAmostraBtn').disabled = false;
-
         }
     });
 
