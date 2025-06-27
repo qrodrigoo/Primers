@@ -462,33 +462,43 @@ document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
         return;
     }
 
-    const sampleToRequest = filteredSamples[selectedRowIndex];
-    const abbr = sampleToRequest.abbr;
-    const primer = sampleToRequest.primer; // ou outro campo que precise
+    const sample = filteredSamples[selectedRowIndex];
 
-    // Pegamos a localização da box para o abbr selecionado
-    const boxLocations = allBoxLocations[abbr];
+    const name = sample.abbr || sample.symbol || '';
+    const primer = sample.primer || sample.gene_name || '';
+    const forward = sample.forward;
+    const reverse = sample.reverse;
+
+    // Determina F/R pela última "palavra" (última parte após espaço)
+    const lastChar = name.trim().split(' ').pop().toUpperCase();
+
+    let sequenceValue = primer;
+    if (lastChar === 'F' && forward) {
+        sequenceValue = forward;
+    } else if (lastChar === 'R' && reverse) {
+        sequenceValue = reverse;
+    }
+
+    // Pegamos a localização da box para o abbr ou symbol
+    const boxLocations = allBoxLocations[name];
 
     let box = null;
     let boxLocation = null;
-
     if (boxLocations && boxLocations.length > 0) {
         box = boxLocations[0].box;
-        boxLocation = boxLocations[0].well; // 'well' equivale ao campo 'box.location'
+        boxLocation = boxLocations[0].well;
     }
 
-    // Inclui box e localização no objeto salvo
     const fullSample = {
-        ...sampleToRequest,
-        primer: primer,
+        ...sample,
+        abbr: sample.abbr || '',
+        symbol: sample.symbol || '',
+        primer: sequenceValue, // Aqui já está com forward/reverse aplicado
         box: box,
         'box.location': boxLocation
     };
 
-    // Salva no localStorage para a página de pedido
     localStorage.setItem('sampleToRequest', JSON.stringify(fullSample));
-
-    // Redireciona para a página de pedido
     window.location.href = '../PedirAmostra/solicitar.html';
 });
 

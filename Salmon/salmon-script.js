@@ -477,7 +477,7 @@ document.getElementById('editSampleBtn').addEventListener('click', () => {
     window.location.href = './BotãoEditar/edit-sample.html';
 });
 
-// Botão Pedir Amostra
+// Botão Pedir Amostra 
 document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
     if (selectedRowIndex === -1 || !filteredSamples[selectedRowIndex]) {
         alert("Nenhuma amostra selecionada.");
@@ -486,7 +486,9 @@ document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
 
     const sampleToRequest = filteredSamples[selectedRowIndex];
     const abbr = sampleToRequest.abbr;
-    const primer = sampleToRequest.primer; // ou outro campo que precise
+    const primer = sampleToRequest.primer;
+    const forward = sampleToRequest.forward;
+    const reverse = sampleToRequest.reverse;
 
     // Pegamos a localização da box para o abbr selecionado
     const boxLocations = allBoxLocations[abbr];
@@ -496,18 +498,21 @@ document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
 
     if (boxLocations && boxLocations.length > 0) {
         box = boxLocations[0].box;
-        boxLocation = boxLocations[0].well; // 'well' equivale ao campo 'box.location'
+        boxLocation = boxLocations[0].well;
     }
 
-    // Inclui box e localização no objeto salvo
+    // Inclui todos os dados necessários no objeto salvo
     const fullSample = {
         ...sampleToRequest,
         primer: primer,
+        forward: forward,
+        reverse: reverse,
         box: box,
         'box.location': boxLocation
     };
 
-    // Salva no localStorage para a página de pedido
+    console.log("🔎 Dados salvos no localStorage:", fullSample);
+
     localStorage.setItem('sampleToRequest', JSON.stringify(fullSample));
 
     // Redireciona para a página de pedido

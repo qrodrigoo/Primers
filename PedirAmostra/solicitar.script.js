@@ -9,13 +9,39 @@ document.addEventListener('DOMContentLoaded', async () => {
   const sampleData = localStorage.getItem('sampleToRequest');
   if (sampleData) {
     try {
-      const { abbr, primer, symbol, gene_name } = JSON.parse(sampleData);
-      abbrInput.value = abbr || symbol || '';
-      primerInput.value = primer || gene_name || '';
+      const { abbr, primer, symbol, gene_name, forward, reverse } = JSON.parse(sampleData);
+      
+      // Pega abbr OU symbol
+      const nameValue = abbr || symbol || '';
+      
+      // Separa por espaço e pega a última parte (ex: "XBP1 R" => "R")
+      const lastChar = nameValue.trim().split(' ').pop().toUpperCase();
+
+      let sequenceValue = '';
+
+      // Se última letra for F ou R, usa forward/reverse
+      if (lastChar === 'F' && forward) {
+        sequenceValue = forward;
+      } else if (lastChar === 'R' && reverse) {
+        sequenceValue = reverse;
+      } else {
+        sequenceValue = primer || gene_name || '';
+      }
+
+      abbrInput.value = nameValue;
+      primerInput.value = sequenceValue;
+
+      console.log("📌 Origem:", abbr ? 'abbr' : 'symbol');
+      console.log("📌 Nome:", nameValue);
+      console.log("📌 Último caractere:", lastChar);
+      console.log("📌 Sequence usada:", sequenceValue);
+
     } catch (error) {
       console.error('Erro ao carregar dados da amostra:', error);
     }
   }
+
+
 
   // Busca as opções na Supabase
   try {

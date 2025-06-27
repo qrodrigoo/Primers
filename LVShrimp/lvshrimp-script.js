@@ -327,7 +327,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const searchTerm = searchInput.value.toLowerCase();
         filteredSamples = allTilapiaSamples.filter(sample => 
             (sample.symbol && sample.symbol.toLowerCase().includes(searchTerm)) || 
-            (sample.gene_name && sample.gene_name.toLowerCase().includes(searchTerm)) 
+            (sample.gene_name && sample.gene_name.toLowerCase().includes(searchTerm))||
+            (sample.forward && sample.forward.toLowerCase().includes(searchTerm)) ||
+            (sample.reverse && sample.reverse.toLowerCase().includes(searchTerm))
         );
         populateTable(filteredSamples);
 
@@ -469,31 +471,46 @@ document.getElementById('pedirAmostraBtn').addEventListener('click', () => {
         return;
     }
 
-    const sampleToRequest = filteredSamples[selectedRowIndex];
-    const symbol = sampleToRequest.symbol; 
-    const gene_name = sampleToRequest.gene_name; 
+    const sample = filteredSamples[selectedRowIndex];
 
-    const boxLocations = allBoxLocations[symbol]; 
+    const name = sample.abbr || sample.symbol || '';
+    const primer = sample.primer || sample.gene_name || '';
+    const forward = sample.forward;
+    const reverse = sample.reverse;
+
+    // Determina F/R pela última "palavra" (última parte após espaço)
+    const lastChar = name.trim().split(' ').pop().toUpperCase();
+
+    let sequenceValue = primer;
+    if (lastChar === 'F' && forward) {
+        sequenceValue = forward;
+    } else if (lastChar === 'R' && reverse) {
+        sequenceValue = reverse;
+    }
+
+    // Pegamos a localização da box para o abbr ou symbol
+    const boxLocations = allBoxLocations[name];
 
     let box = null;
     let boxLocation = null;
-
     if (boxLocations && boxLocations.length > 0) {
         box = boxLocations[0].box;
-        boxLocation = boxLocations[0].well; 
+        boxLocation = boxLocations[0].well;
     }
 
     const fullSample = {
-        ...sampleToRequest,
-        gene_name: gene_name, 
+        ...sample,
+        abbr: sample.abbr || '',
+        symbol: sample.symbol || '',
+        primer: sequenceValue, // Aqui já está com forward/reverse aplicado
         box: box,
         'box.location': boxLocation
     };
 
     localStorage.setItem('sampleToRequest', JSON.stringify(fullSample));
-
     window.location.href = '../PedirAmostra/solicitar.html';
 });
+
 
 const boxModal = document.getElementById('boxModal');
 const boxInput = document.getElementById('boxCountInput');
